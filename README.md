@@ -21,4 +21,4 @@ Thus, the project was started with the following objectives in mind，named afte
 
 ## Contributing to the project
 ### I am by all means not an experienced programmer, but I plan to continually improve this app for years to come.
-### Any and all contributions to this project are much appreciated 
+### Any and all contributions to this project are much appreciated!
