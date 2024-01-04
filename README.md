@@ -12,7 +12,7 @@ Thus, the project was started with the following objectives in mind，named afte
 - Projecting lyrics and images to between one and two windows simultaneously, each with individual styling
 - Allowing the user to set the HTML class of each element of a set list in the GUI, allowing for
   the user to customize the styling of each class, and add custom styling
-- Implementation api.bible
+- Implementation of api.bible
 
 ## Longer-term Goals
 - Support for more than two projection windows
