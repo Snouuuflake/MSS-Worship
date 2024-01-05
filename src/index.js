@@ -1,10 +1,30 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-
+const fs = require('fs');
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+
+// global ojects
+let settings = {};
+
+const mss = {
+  
+}
+
+function loadSettings() {
+  fs.readFile("src/settings.json", (error, data) => {
+    if (error) {
+      console.log("error:", error);
+    } else {
+      settings = JSON.parse(data);
+      console.log(settings);
+    }
+  })
+}
+
 
 const createWindow = () => {
   // Create the browser window.
@@ -13,6 +33,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
     },
   });
 
@@ -21,6 +42,7 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
 };
 
 // This method will be called when Electron has finished
