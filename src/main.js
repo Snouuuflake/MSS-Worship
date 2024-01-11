@@ -1,5 +1,7 @@
+const renderSongList = [];
 
-const testDisplay = document.querySelector("#test-display");
+let currentButtonIndex = -1;
+
 const verseList = document.querySelector(".verse-list");
 
 
@@ -48,7 +50,7 @@ function drawVerse(verse) {
   verseButton.addEventListener("click", () => {
     
     console.log("hi");
-    window.mainAPI.sendDisplayTest(contentStr);
+    window.mainAPI.sendDisplayText(contentStr);
 
   });
 
@@ -60,7 +62,7 @@ function drawVerse(verse) {
 
 function drawSection(section) {
   const sectionHeading = document.createElement("li");
-  sectionHeading.classList.add("section-Heading");
+  sectionHeading.classList.add("section-heading");
   sectionHeading.innerText = section.name;
   
   verseList.appendChild(sectionHeading);
@@ -72,6 +74,8 @@ function drawSection(section) {
 }
 
 function drawSong(song) {
+  const verseList = document.querySelector(".verse-list");
+  verseList.innerHTML = "";
   for (let sectionName of song.sectionOrder) {
     console.log(song.sections.find( (s) => s.name == sectionName));
 
@@ -82,29 +86,90 @@ function drawSong(song) {
 }
 
 
-readSongButton = document.querySelector("#read-song");
+
+
+function swapElements(array, index1, index2) {
+    [array[index1], array[index2]] = [array[index2], array[index1]];
+}
+
+function drawSongButton(song, index) {
+  const songList = document.querySelector(".song-list");
+
+  const thisLi = document.createElement("li");
+
+  const thisButton = document.createElement("button");
+
+  thisButton.classList.add("song-button");
+  thisButton.innerText = song.data.title;
+
+  thisButton.addEventListener("click", () => {
+    drawSong(song);
+    currentButtonIndex = index;
+  })
+
+  thisLi.appendChild(thisButton);
+
+  songList.appendChild(thisLi);
+  
+}
+
+const delButton = document.querySelector("#del-song");
+delButton.addEventListener("click", () => {
+  renderSongList.splice(currentButtonIndex,1);
+  drawSongList();
+})
+
+const upButton = document.querySelector("#mv-song-up");
+upButton.addEventListener("click", () => {
+  if (currentButtonIndex > 0) {
+    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex - 1) );
+    drawSongList();
+    currentButtonIndex--;
+  }
+})
+
+const downButton = document.querySelector("#mv-song-down");
+downButton.addEventListener("click", () => {
+  if (currentButtonIndex < (renderSongList.length - 1)) {
+    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex + 1) );
+    currentButtonIndex++;
+    drawSongList();
+  }
+})
+
+
+function drawSongList() {
+  const songList = document.querySelector(".song-list");
+  songList.innerHTML = "";
+
+  let i = 0;
+
+  for (let song of renderSongList) {
+    drawSongButton(song, i);
+    i++;
+  }
+}
+
+
+const readSongButton = document.querySelector("#read-song");
 readSongButton.addEventListener("click", () => {
   window.mainAPI.sendReadSong();
 });
 
-window1Button = document.querySelector("#create-window-1");
+const window1Button = document.querySelector("#create-window-1");
 window1Button.addEventListener("click", () => {
   window.mainAPI.sendCreateWindow(1);
 });
 
-window2Button = document.querySelector("#create-window-2");
+const window2Button = document.querySelector("#create-window-2");
 window2Button.addEventListener("click", () => {
   window.mainAPI.sendCreateWindow(2);
 });
 
-window.mainAPI.onReadyFromMain((value) => {
-  testDisplay.innerText = value;
-  console.log(value);
-});
 
 window.mainAPI.onSongAdded((value) => {
   const parsedSong = JSON.parse(value);
-  //window.Parser.debugPrintSong(parsedSong);
-  drawSong(parsedSong);
+  renderSongList.push(parsedSong);
+  drawSongList();
 
 })

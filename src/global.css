@@ -1,6 +1,92 @@
+.main-container {
+  display: flex;
+  align-items: start;
+  flex-direction: row;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.container {
+  overflow-y: hidden;
+}
+.container li {
+  width: 100%;
+}
+
 .verse-container {
+  display: inline-block;
   background-color: lightblue;
+
+  width: 60%;
+  min-height: 100px;
+}
+
+.verse-list {
+  padding: 0 20px;
+}
+
+.verse-list li {
+  width: 100%
+}
+
+.verse-list button {
+  width: 100%
+}
+
+.section-heading {
+  width: 100%;
+  background-color: white;
+  font-size: 25px;
+}
+
+.song-list-container {
+  background-color: lightblue;
+  display: inline-flex;
+  width: 30%;
+  min-height: 100px;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-items: center;
+  overflow-y: hide;
   
-  width: 50%;
-  margin: auto;
+}
+
+.song-list {
+  background-color: white;
+  margin: 15px;
+  padding: 0;
+  min-height: 100px;
+  width: auto;
+  overflow-y: hidden;
+}
+
+.song-list li {
+  overflow-y: hidden;
+  width: 100%
+}
+
+.song-list button {
+  width: 100%;
+}
+
+
+.song-button-list {
+  margin: 15px;
+  margin-bottom: 2px;
+}
+
+.container {
+  margin: 5px;
+}
+
+
+@media (max-width:400px) {
+  .main-container {
+    flex-direction: column;
+  }
+  .container {
+    width: 90%;
+  }
 }
