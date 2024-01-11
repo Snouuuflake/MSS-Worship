@@ -240,7 +240,7 @@ function readMSS(filename) {
   }
   
   try {
-    const data = fs.readFileSync("./src/"+filename, 'utf8');
+    const data = fs.readFileSync(filename, 'utf8');
 
     output = parseMSS(data);
 

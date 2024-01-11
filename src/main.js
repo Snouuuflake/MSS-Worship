@@ -82,12 +82,27 @@ function drawSong(song) {
 }
 
 
+readSongButton = document.querySelector("#read-song");
+readSongButton.addEventListener("click", () => {
+  window.mainAPI.sendReadSong();
+});
+
+window1Button = document.querySelector("#create-window-1");
+window1Button.addEventListener("click", () => {
+  window.mainAPI.sendCreateWindow(1);
+});
+
+window2Button = document.querySelector("#create-window-2");
+window2Button.addEventListener("click", () => {
+  window.mainAPI.sendCreateWindow(2);
+});
+
 window.mainAPI.onReadyFromMain((value) => {
   testDisplay.innerText = value;
   console.log(value);
 });
 
-window.mainAPI.onSongTest((value) => {
+window.mainAPI.onSongAdded((value) => {
   const parsedSong = JSON.parse(value);
   //window.Parser.debugPrintSong(parsedSong);
   drawSong(parsedSong);
