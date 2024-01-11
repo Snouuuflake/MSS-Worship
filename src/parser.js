@@ -228,6 +228,10 @@ function parseMSS(multilineStr){
 
 }
 
+/**
+  * Reads a text file in MSS format and returns it as a mss.Song object.
+  * Currently only reads files in /src 
+  */
 function readMSS(filename) {
 
   let output = {
@@ -236,7 +240,7 @@ function readMSS(filename) {
   }
   
   try {
-    const data = fs.readFileSync("./src/"+filename+".mss", 'utf8');
+    const data = fs.readFileSync("./src/"+filename, 'utf8');
 
     output = parseMSS(data);
 
@@ -273,16 +277,18 @@ function debugPrintSection(section) {
   }
 }
 function debugPrintSong(song) {
+  console.log("\n");
+  console.log("Title: " + song.data.title);
+  console.log("Author: " + song.data.author);
   for (let i of song.sectionOrder) {
     debugPrintSection(song.sections.find((s) => s.name == i));
   }
+  console.log("song-end");
+  console.log("\n");
 }
 
 
-res = readMSS("example-file");
 
 
-if (res.error == "none") {
-  debugPrintSong(res.song);
-}
 
+module.exports = {readMSS, debugPrintSong};
