@@ -57,7 +57,7 @@ function drawVerse(verse) {
   verseLi.appendChild(verseButton);
 
   verseList.appendChild(verseLi);
-
+ 
 }
 
 function drawSection(section) {

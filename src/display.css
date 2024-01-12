@@ -1,11 +1,28 @@
+.display-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
 .display-global {
-  font-size: 100;
+  width: 100%;
+  text-align: center;
 }
 
-.display-1 {
-  background-color: lightblue;
+.display-1-background {
+  background-color: black;
 }
 
-.display-2 {
+.display-1-text {
+  color: white;
+}
+
+.display-2-background {
   background-color: lightpink;
+}
+
+.display-2-text {
+
 }

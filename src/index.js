@@ -58,6 +58,7 @@ const globalWindowList = [];
 const createDisplayWindow = (windowNumber) => {
 
   const thisWindow = new BrowserWindow( {
+    autoHideMenuBar: true,
     width: 800,
     height: 600,
     webPreferences: {
@@ -91,6 +92,7 @@ const createDisplayWindow = (windowNumber) => {
 const createMainWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    autoHideMenuBar: true,
     width: 800,
     height: 600,
     webPreferences: {
