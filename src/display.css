@@ -1,22 +1,27 @@
 .display-container {
-  width: 100vw;
-  height: 100vh;
+  width: 94vw;
+  height: 94vh;
   display: flex;
   align-items: center;
   justify-items: center;
+  margin: 3vh 3vw;
 }
 
-.display-global {
+
+.display-global-text {
   width: 100%;
   text-align: center;
 }
 
+/* Affects the body element */
 .display-1-background {
   background-color: black;
 }
 
+/* Affects the div containing the text */
 .display-1-text {
   color: white;
+  font-size: 50px;
 }
 
 .display-2-background {
@@ -24,5 +29,6 @@
 }
 
 .display-2-text {
-
+  color: black;
+  font-size: 200px;
 }

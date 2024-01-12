@@ -1,3 +1,20 @@
+:root {
+  --hi: #e63946;
+  --c1: #e0fbfc;
+  --c2: #98c1d9;
+  --c3: #3d5a80;
+  --c4: #293241;
+
+}
+
+* {
+  font-family: "helvetica";
+}
+
+body {
+  background-color: var(--c4);
+}
+
 .main-container {
   display: flex;
   align-items: start;
@@ -10,6 +27,7 @@ ul {
 
 .container {
   overflow-y: hidden;
+  border-radius: 15px;
 }
 .container li {
   width: 100%;
@@ -17,10 +35,15 @@ ul {
 
 .verse-container {
   display: inline-block;
-  background-color: lightblue;
 
   width: 60%;
   min-height: 100px;
+  background-color: var(--c1);
+
+  border-color: var(--c2);
+  border-width: 10px;
+  border-style: solid;
+
 }
 
 .verse-list {
@@ -32,34 +55,41 @@ ul {
 }
 
 .verse-list button {
-  width: 100%
+  width: 80%;
+  margin: 5px 10%;
+  
+  border: none;
+  background: none;
 }
 
 .section-heading {
   width: 100%;
-  background-color: white;
+  background-color: none;
   font-size: 25px;
+  text-emphasis: bold;
 }
 
 .song-list-container {
-  background-color: lightblue;
   display: inline-flex;
   width: 30%;
   min-height: 100px;
   flex-wrap: nowrap;
   flex-direction: column;
   justify-items: center;
-  overflow-y: hide;
+  overflow-y: hidden;
+  background-color: var(--c2);
   
 }
 
 .song-list {
-  background-color: white;
   margin: 15px;
-  padding: 0;
+  padding: 15px 0;
   min-height: 100px;
   width: auto;
   overflow-y: hidden;
+  background-color: var(--c1);
+
+  border-radius: 15px;
 }
 
 .song-list li {
@@ -67,14 +97,52 @@ ul {
   width: 100%
 }
 
-.song-list button {
-  width: 100%;
+.song-button{
+  font-size: 14px;
+  width: 80%;
+
+  margin: 7px 10%;
+
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  
+  border-color: var(--c3) var(--c1);
+
+  border-width: 2px 20px;
+
+  background: none;
+
+  overflow: hidden;
+
+  font-weight: bold;
+   
+}
+
+.song-button:hover, .song-button:active {
+  color: var(--hi);
+  border-color: var(--hi);
 }
 
 
 .song-button-list {
   margin: 15px;
   margin-bottom: 2px;
+  width: 85%;
+}
+
+.song-button-list button {
+  background-color: var(--hi);
+  color: white;
+
+  border-radius: 2px;
+  border: none;
+
+  padding: 4px;
+  border-radius: 7px;
+  
+  width: 15%;
 }
 
 .container {
