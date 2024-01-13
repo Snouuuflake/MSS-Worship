@@ -166,6 +166,15 @@ window2Button.addEventListener("click", () => {
   window.mainAPI.sendCreateWindow(2);
 });
 
+const logoButton = document.querySelector("#to-logo");
+window2Button.addEventListener("click", () => {
+  //window.mainAPI.sendToLogo();
+});
+
+const blackButton = document.querySelector("#to-black");
+window2Button.addEventListener("click", () => {
+  //window.mainAPI.ToBlack();
+});
 
 window.mainAPI.onSongAdded((value) => {
   const parsedSong = JSON.parse(value);

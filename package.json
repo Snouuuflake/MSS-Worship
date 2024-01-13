@@ -11,6 +11,9 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
+  "build": {
+    "extraResources": ["./extraResources/**"]
+  },
   "keywords": [],
   "author": {
     "name": "Snouuuflake",

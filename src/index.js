@@ -19,6 +19,7 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+console.log(__dirname + '/../extraResources/');
 
 /** Prints an error dialogue box
   * In the near future should print full messages, not just the codes.
