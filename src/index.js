@@ -114,22 +114,33 @@ const createMainWindow = () => {
 
 };
 
+function sendToAllWindows(channel, data) {
+  for (let w of globalWindowList) {
+    if (w) {
+      w.webContents.send(channel, data);
+    }
+  }
+}
+
 
 // gets what text to display from the main window and sends it to every window
 ipcMain.on("display-text-to-main", (event, data) => {
-  console.log(data);
-  for (let win of globalWindowList) {
-    console.log(win);
-    if (win) {
-      win.webContents.send("display-text-to-display", data);
-    }
-  }
+  sendToAllWindows("display-text-to-display", data);
 });
 
+
+ipcMain.on("logo-to-main", (event, data) => {
+  sendToAllWindows("logo-to-display", data);
+})
+
+ipcMain.on("black-to-main", (event, data) => {
+  sendToAllWindows("black-to-display", data)
+})
 // creates a window with a given window number
 ipcMain.on("create-display-window", (event, data) => {
   createDisplayWindow(data);
 });
+
 
 // opens a song file and sends it to the main window
 ipcMain.on("read-song", (event, data) => {
@@ -165,6 +176,7 @@ ipcMain.on("read-song", (event, data) => {
     }
   });
 })
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // 

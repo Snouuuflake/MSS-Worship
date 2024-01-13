@@ -167,13 +167,17 @@ window2Button.addEventListener("click", () => {
 });
 
 const logoButton = document.querySelector("#to-logo");
-window2Button.addEventListener("click", () => {
-  //window.mainAPI.sendToLogo();
+logoButton.addEventListener("click", () => {
+  if (logoButton.checked) {
+    window.mainAPI.sendToLogo("on");
+  } else {
+    window.mainAPI.sendToLogo("off");
+  }
 });
 
 const blackButton = document.querySelector("#to-black");
-window2Button.addEventListener("click", () => {
-  //window.mainAPI.ToBlack();
+blackButton.addEventListener("click", () => {
+  window.mainAPI.sendBlackOn();
 });
 
 window.mainAPI.onSongAdded((value) => {

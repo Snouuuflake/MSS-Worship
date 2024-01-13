@@ -24,7 +24,7 @@
 }
 
 .fadeOut {
-  animation: fadeOut ease var(--td);
+  animation: fadeOut var(--td);
 }
 
 
@@ -39,11 +39,12 @@
 
 
 .logo {
+  display: none;
 
   position: absolute;
   height: 100vh;
   width: 100vw;
-  top: 0;
+  top: 0; 
   left: 0;
   z-index: 10;
 
@@ -51,13 +52,14 @@
   content: url("./logo-blanco-y-rojo-2023.png");
 
   background-color: black;
+
+
 }
 
 
 .display-global-text {
   width: 100%;
   text-align: center;
-  transition: 0.5s;
 }
 
 /* Affects the body element */
