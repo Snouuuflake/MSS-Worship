@@ -1,8 +1,8 @@
 {
   "name": "mss-worship",
   "productName": "mss-worship",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "0.1.0",
+  "description": "CSS-based lyric proejction software",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -17,7 +17,7 @@
   "keywords": [],
   "author": {
     "name": "Snouuuflake",
-    "email": "xuehuamusic2@gmail.com"
+    "email": "xuehuamusic@gmail.com"
   },
   "license": "MIT",
   "dependencies": {

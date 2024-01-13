@@ -177,7 +177,11 @@ logoButton.addEventListener("click", () => {
 
 const blackButton = document.querySelector("#to-black");
 blackButton.addEventListener("click", () => {
-  window.mainAPI.sendBlackOn();
+  if (blackButton.checked) {
+    window.mainAPI.sendToBlack("on");
+  } else {
+    window.mainAPI.sendToBlack("off");
+  }
 });
 
 window.mainAPI.onSongAdded((value) => {

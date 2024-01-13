@@ -2,6 +2,7 @@ const displayDiv = document.querySelector(".display-global-text");
 const displayContainer = document.querySelector(".display-container");
 const body = document.querySelector("body");
 const logoDiv = document.querySelector(".logo");
+const blackDiv = document.querySelector(".black");
 
 
 function overflows(element) {
@@ -45,6 +46,10 @@ const hideLogo = () => {
 };
 
 
+const hideBlack = () => {
+  blackDiv.style.display = 'none';
+};
+
 window.displayAPI.onGetLogo( (value) => {
   if (value == "on") {
     logoDiv.removeEventListener("animationend", hideLogo);
@@ -59,4 +64,16 @@ window.displayAPI.onGetLogo( (value) => {
 });
 
 
+window.displayAPI.onGetBlack( (value) => {
+  if (value == "on") {
+    blackDiv.removeEventListener("animationend", hideBlack);
+    blackDiv.style.display = 'block';
+    blackDiv.classList.remove("fadeOut");
+    blackDiv.classList.add("fadeIn");
+  } else if (value == "off") {
+    blackDiv.classList.remove("fadeIn");
+    blackDiv.classList.add("fadeOut");
+    blackDiv.addEventListener("animationend", hideBlack);
+  }
+});
 

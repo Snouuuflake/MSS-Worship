@@ -32,11 +32,10 @@ menu li {
   display: inline-block;
 }
 
-menu button {
+menu button, menu .checkboxLi{
   border: none;
   outline: none;
 
-  padding: 10px 15px;
 
   margin-right: 13px;
 
@@ -45,6 +44,14 @@ menu button {
   color: white;
 
   background-color: var(--c4);
+}
+
+menu button {
+  padding: 10px 15px;
+}
+
+menu .checkboxLi {
+  padding: 9px 15px;
 }
 
 menu button:hover {
