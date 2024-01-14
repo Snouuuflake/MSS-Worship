@@ -1,3 +1,8 @@
+# Current Build Features
+MSS Worship 0.1.0 is public! This version features reading and displaying MSS files, automatic font size adjustment, overlaying a logo / black screen to hide what is currently being projected, along with two differently-styled windows.
+
+To learn how to write lyrics in MSS format with any plain text editor check out the lyric-writing tutorial, and for styling lyrics / setting the logo image, check out the styling-config tutorial.
+
 # MSS-Worship
 An open-source Electron app for displaying song lyrics, images, and more, designed with worship in mind.
 
