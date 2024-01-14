@@ -93,7 +93,7 @@
 
 /* Affects the body element of window 1 */
 .display-1-background {
-  background-color: black;
+  background: black;
 }
 
 /* Affects the div containing the text of window 1 */
@@ -115,8 +115,8 @@
 
 /* Affects the body element of window 2 */
 .display-2-background {
-  background-color: lightpink;
-}
+  background: lightskyblue;
+} 
 
 /* Affects the div containing the text of window 2 */
 .display-2-text {

@@ -9,10 +9,21 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "dist": "electron-builder"
   },
   "build": {
-    "extraResources": ["./extraResources/**"]
+    "asar": false,
+   "appId": "mss-worship",
+    "win": {
+      "target": "NSIS"
+    },
+    "dmg": {
+      "title": "MSS-Worship 0.1.0"
+    },
+    "extraResources": [
+      "./extraResources/**"
+    ]
   },
   "keywords": [],
   "author": {
@@ -30,6 +41,7 @@
     "@electron-forge/maker-squirrel": "^7.2.0",
     "@electron-forge/maker-zip": "^7.2.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
-    "electron": "28.1.0"
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
   }
 }
