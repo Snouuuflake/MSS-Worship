@@ -1,7 +1,7 @@
 # Current Build Features
 MSS Worship 0.1.0 is public! This version features reading and displaying MSS files, automatic font size adjustment, overlaying a logo / black screen to hide what is currently being projected, along with two differently-styled windows.
 
-To learn how to write lyrics in MSS format with any plain text editor, or how to style lyrics / change the logo image, check out this repository's wiki, soon to be expanded an translated to spanish.
+To learn how to write lyrics in MSS format with any plain text editor, or how to style lyrics / change the logo image, check out this repository's wiki, soon to be expanded and translated to Spanish.
 
 ### Note: Due to the fact that this version was somewhat-rushed into having an installer, the installer is one-click, with no options, (installs in \Users\<USER>\AppData\Local\Programs), and has asar:false in the electron-builder options. This is all bound to change in releases in the near future. An installer for MacOS and Linux is also planned in the near future, once the software is in a more robust state.
 
