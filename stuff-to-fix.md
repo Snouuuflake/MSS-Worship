@@ -1,0 +1,4 @@
+- current selected verse doesnt reset when changing song
+- no indicator for the last-selected verse
+- using a mouse doesnt update what verse was last selected with arrow keys
+- installer creates extraResources folder twice :/- only one actually does something
