@@ -20,10 +20,7 @@
     },
     "dmg": {
       "title": "MSS-Worship 0.1.0"
-    },
-    "extraResources": [
-      "./extraResources/**"
-    ]
+    }
   },
   "keywords": [],
   "author": {
