@@ -111,6 +111,9 @@
   /* default font size.
    * if the text does not fit at this size, it will be scaled down to fit. */
   font-size: 50px;
+  
+  /* normal or bold */
+  font-weight: normal;
 }
 
 /* Affects the body element of window 2 */
@@ -133,4 +136,6 @@
   /* default font size.
    * if the text does not fit at this size, it will be scaled down to fit. */
   font-size: 200px;
+  /* normal or bold */
+  font-weight: normal;
 }
