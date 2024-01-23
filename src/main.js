@@ -141,29 +141,31 @@ function drawSongButton(song, index) {
   
 }
 
-const delButton = document.querySelector("#del-song");
-delButton.addEventListener("click", () => {
-  renderSongList.splice(currentButtonIndex,1);
-  drawSongList();
-})
+function drawImageButton(image, index) {
+  const songList = document.querySelector(".song-list");
 
-const upButton = document.querySelector("#mv-song-up");
-upButton.addEventListener("click", () => {
-  if (currentButtonIndex > 0) {
-    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex - 1) );
-    drawSongList();
-    currentButtonIndex--;
-  }
-})
+  const thisLi = document.createElement("li");
 
-const downButton = document.querySelector("#mv-song-down");
-downButton.addEventListener("click", () => {
-  if (currentButtonIndex < (renderSongList.length - 1)) {
-    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex + 1) );
-    currentButtonIndex++;
-    drawSongList();
-  }
-})
+  const thisButton = document.createElement("button");
+
+  thisButton.classList.add("song-button");
+
+  // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!1
+  thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\')+1);
+
+  thisButton.addEventListener("click", () => {
+    const verseList = document.querySelector(".verse-list");
+    // clears the verse list when sending a song
+    verseList.innerHTML = "";
+    window.mainAPI.sendDisplayImage(image.path);
+    currentButtonIndex = index;
+  })
+
+  thisLi.appendChild(thisButton);
+
+  songList.appendChild(thisLi);
+  
+}
 
 
 function drawSongList() {
@@ -172,16 +174,50 @@ function drawSongList() {
 
   let i = 0;
 
-  for (let song of renderSongList) {
-    drawSongButton(song, i);
-    i++;
+  for (let object of renderSongList) {
+    if (object.type == "song") {
+      drawSongButton(object, i);
+      i++;
+    } else if (object.type == "image") {
+      drawImageButton(object, i);
+      i++;
+    }
   }
 }
 
 
+const delButton = document.querySelector("#del-element");
+delButton.addEventListener("click", () => {
+  renderSongList.splice(currentButtonIndex,1);
+  drawSongList();
+})
+
+const upButton = document.querySelector("#mv-element-up");
+upButton.addEventListener("click", () => {
+  if (currentButtonIndex > 0) {
+    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex - 1) );
+    drawSongList();
+    currentButtonIndex--;
+  }
+})
+
+const downButton = document.querySelector("#mv-element-down");
+downButton.addEventListener("click", () => {
+  if (currentButtonIndex < (renderSongList.length - 1)) {
+    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex + 1) );
+    currentButtonIndex++;
+    drawSongList();
+  }
+})
+
 const readSongButton = document.querySelector("#read-song");
 readSongButton.addEventListener("click", () => {
   window.mainAPI.sendReadSong();
+});
+
+const readImageButton = document.querySelector("#read-image");
+readImageButton.addEventListener("click", () => {
+  window.mainAPI.sendReadImage();
 });
 
 const window1Button = document.querySelector("#create-window-1");
@@ -214,7 +250,12 @@ blackButton.addEventListener("click", () => {
 
 window.mainAPI.onSongAdded((value) => {
   const parsedSong = JSON.parse(value);
+  parsedSong.type = "song";
   renderSongList.push(parsedSong);
   drawSongList();
+})
 
+window.mainAPI.onImageAdded((value) => {
+  renderSongList.push({type: "image", path: value});
+  drawSongList();
 })

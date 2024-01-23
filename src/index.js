@@ -12,6 +12,8 @@ const Parser = require("./parser.js");
 
 const { globalShortcut } = require('electron');
 
+// self-explanatory
+const globalWindowList = [];
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -46,7 +48,6 @@ app.on('browser-window-blur', function () {
 
 
 
-const globalWindowList = [];
 
 
 /**
@@ -167,6 +168,29 @@ ipcMain.on("read-song", (event, data) => {
         printError(readOutput.error);
 
       }
+
+    // does nothing if the user didnt select a file
+    } else {
+
+      console.log("no file selected");
+
+    }
+  });
+})
+
+
+// opens an image and ends the address to the main display window
+ipcMain.on("read-image", (event, data) => {
+
+  // opens native file dialog
+  dialog.showOpenDialog({properties: ['openFile'] }).then(function (response) {
+    // if the user finished loading a file
+    if (!response.canceled) {
+
+      console.log(response.filePaths[0]);
+
+
+      globalWindowList[0].webContents.send("add-image-to-main", response.filePaths[0]);
 
     // does nothing if the user didnt select a file
     } else {
