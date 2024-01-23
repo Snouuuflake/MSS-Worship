@@ -5,6 +5,7 @@
   --c3: #343A40;
   --c4: #212529;
 
+  --hi2: #3498DB;
 }
 
 * {
@@ -18,6 +19,9 @@ body {
 }
 
 
+.logo-container {
+  margin-top: 1px;
+}
 .logo-img {
   height: 100px;
 }
@@ -126,6 +130,10 @@ ul {
   background-color: none;
   font-size: 25px;
   font-weight: bold;
+}
+
+.last-pressed {
+  outline: var(--hi2) solid 4px !important;
 }
 
 .song-list-container {

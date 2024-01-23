@@ -5,6 +5,11 @@
   --fadeDuration: 5s;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 
 @keyframes fadeIn {
   0% {
@@ -34,13 +39,10 @@
 
 
 .display-container {
-  /* height + the first margin value should == 100, unless you know what you're doing
-   * same for width and the second margin value */
-  height: 94vh;
-  width: 94vw;
-  margin: 3vh 3vw;
-
-  
+  /* changing any of this will probably break everything */
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-items: center;
@@ -127,8 +129,8 @@
   /* 1vh = 1% of window height, 1vw = 1% of window width */
   padding-top: 30vh;
   padding-bottom: 0vh;
-  padding-left: 0vw;
-  padding-right: 0vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
 
   /* text color */
   color: black;
@@ -136,6 +138,7 @@
   /* default font size.
    * if the text does not fit at this size, it will be scaled down to fit. */
   font-size: 200px;
+
   /* normal or bold */
   font-weight: normal;
 }

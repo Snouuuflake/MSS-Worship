@@ -1,12 +1,17 @@
 const renderSongList = [];
 
+let lastPressed = null;
+
 let currentButtonIndex = -1;
+let globalButtonCounter = 0;
 
 const verseList = document.querySelector(".verse-list");
 
 
 let listItems = document.querySelectorAll(".verse-button");
-var currentLI = 0;
+
+// "current selected button"
+let currentLI = 0;
 // Set up a key event handler for the document
 document.addEventListener("keydown", function(event){
   // Check for up/down key presses
@@ -47,10 +52,25 @@ function drawVerse(verse) {
   
   verseButton.innerHTML = contentStr;
 
+  // gives each button an index
+  // so that it can sync with arrow keys
+  verseButton.globalIndex = globalButtonCounter++;
+
   verseButton.addEventListener("click", () => {
     
     console.log("hi");
     window.mainAPI.sendDisplayText(contentStr);
+
+    // for arrow keys to sync right
+    currentLI = verseButton.globalIndex;
+
+    if (lastPressed) {
+      lastPressed.classList.remove("last-pressed");
+    }
+
+    verseButton.classList.add("last-pressed");
+
+    lastPressed = verseButton;
 
   });
 
@@ -75,7 +95,13 @@ function drawSection(section) {
 
 function drawSong(song) {
   const verseList = document.querySelector(".verse-list");
+
   verseList.innerHTML = "";
+
+  // resettind when drawing song
+  currentLI = 0;
+  globalButtonCounter = 0;
+
   for (let sectionName of song.sectionOrder) {
     console.log(song.sections.find( (s) => s.name == sectionName));
 
@@ -83,6 +109,8 @@ function drawSong(song) {
 
   }
   listItems = document.querySelectorAll(".verse-button");
+
+  listItems[0].focus();
 }
 
 

@@ -10,7 +10,6 @@ const Verse = require("./mss.js").Verse;
 const Parser = require("./parser.js");
 
 
-
 const { globalShortcut } = require('electron');
 
 
@@ -19,7 +18,8 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-console.log(__dirname + '/../extraResources/');
+// Will add external folder later
+//console.log(__dirname + '/../extraResources/');
 
 /** Prints an error dialogue box
   * In the near future should print full messages, not just the codes.
