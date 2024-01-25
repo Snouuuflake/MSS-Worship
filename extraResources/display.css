@@ -142,3 +142,11 @@
   /* normal or bold */
   font-weight: normal;
 }
+
+/* probably best not to edit this class */
+.display-img {
+  display: none;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}

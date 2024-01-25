@@ -1,4 +1,5 @@
 const displayDiv = document.querySelector(".display-global-text");
+const displayImg = document.querySelector(".display-img");
 const displayContainer = document.querySelector(".display-container");
 const body = document.querySelector("body");
 const logoDiv = document.querySelector(".logo");
@@ -36,7 +37,10 @@ window.displayAPI.onReadyFromMain( (value) => {
 });
 
 window.displayAPI.onGetDisplayText( (value) => {
+  displayImg.style.display = "none";
+
   displayDiv.innerHTML = value;
+  displayDiv.style.display = "block";
   fitText(displayDiv, displayContainer, maxFontSize);
 })
 
@@ -49,6 +53,16 @@ const hideLogo = () => {
 const hideBlack = () => {
   blackDiv.style.display = 'none';
 };
+
+
+window.displayAPI.onGetDisplayImage( (value) => {
+  displayDiv.innerHTML = "";
+  displayDiv.style.display = "none";
+
+  displayImg.src = value;
+  displayImg.style.display = "block";
+});
+
 
 window.displayAPI.onGetLogo( (value) => {
   if (value == "on") {
@@ -76,4 +90,5 @@ window.displayAPI.onGetBlack( (value) => {
     blackDiv.addEventListener("animationend", hideBlack);
   }
 });
+
 

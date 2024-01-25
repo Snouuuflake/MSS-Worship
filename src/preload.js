@@ -12,7 +12,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
   sendReadImage: () => ipcRenderer.send("read-image", "a message"),
 
   sendDisplayText: (data) => ipcRenderer.send("display-text-to-main", data),
-  sendDisplayImage: (data) => console.log(data),
+  sendDisplayImage: (data) => ipcRenderer.send("display-image-to-main", data),
   sendCreateWindow: (data) => ipcRenderer.send("create-display-window", data),
   sendToLogo: (data) => ipcRenderer.send("logo-to-main", data),
   sendToBlack: (data) => ipcRenderer.send("black-to-main", data),
@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
 contextBridge.exposeInMainWorld("displayAPI", {
   onReadyFromMain: (callback) => ipcRenderer.on('ready-from-main', (_event, value) => callback(value)),
   onGetDisplayText: (callback) => ipcRenderer.on("display-text-to-display", (_event, value) => callback(value)),
+  onGetDisplayImage:  (callback) => ipcRenderer.on("display-image-to-display", (_event, value) => callback(value)),
   onGetLogo: (callback) => ipcRenderer.on("logo-to-display", (_event, value) => callback(value)),
   onGetBlack: (callback) => ipcRenderer.on("black-to-display", (_event, value) => callback(value)),
 

@@ -115,6 +115,8 @@ const createMainWindow = () => {
 
 };
 
+
+// sends data to all windows on channel
 function sendToAllWindows(channel, data) {
   for (let w of globalWindowList) {
     if (w) {
@@ -129,6 +131,10 @@ ipcMain.on("display-text-to-main", (event, data) => {
   sendToAllWindows("display-text-to-display", data);
 });
 
+
+ipcMain.on("display-image-to-main", (event, data) => {
+  sendToAllWindows("display-image-to-display", data);
+})
 
 ipcMain.on("logo-to-main", (event, data) => {
   sendToAllWindows("logo-to-display", data);
