@@ -6,7 +6,7 @@ const blackDiv = document.querySelector(".black");
 
 
 function overflows(element) {
-  return (element.clientHeight < element.scrollHeight);
+  return ((element.clientHeight < element.scrollHeight) || (element.clientWidth < element.scrollWidth));
 }
 
 function fitText(textElement, parentElement, maxSize) {
