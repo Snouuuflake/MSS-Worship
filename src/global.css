@@ -1,0 +1,239 @@
+:root {
+  --hi: #e63946;
+  --c1: #CED4DA;
+  --c2: #6C757D;
+  --c3: #343A40;
+  --c4: #212529;
+
+  --hi2: #3498DB;
+}
+
+* {
+  font-family: "helvetica";
+}
+
+
+
+body {
+  background-color: var(--c3);
+}
+
+
+.logo-container {
+  margin-top: 1px;
+}
+.logo-img {
+  height: 100px;
+}
+
+ 
+menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+menu li {
+  display: inline-block;
+}
+
+menu button, menu .checkboxLi{
+  border: none;
+  outline: none;
+
+
+  margin-right: 13px;
+
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+
+  background-color: var(--c4);
+}
+
+menu button {
+  padding: 10px 15px;
+}
+
+menu .checkboxLi {
+  padding: 9px 15px;
+}
+
+menu button:hover {
+  background-color: var(--hi);
+}
+
+menu button:active {
+  color: var(--hi);
+}
+
+.main-container {
+  display: flex;
+  align-items: start;
+  flex-direction: row;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.container {
+  overflow-y: hidden;
+  margin-right: 15px;
+}
+
+.container li {
+  width: 100%;
+}
+
+.verse-container {
+  display: inline-block;
+
+  width: 60%;
+  min-height: 100px;
+
+  background-color: var(--c4); 
+
+}
+
+.verse-list {
+  background-color: white;
+  
+  margin: 2%;
+
+}
+
+.verse-list li {
+  width: 100%
+}
+
+.verse-list button {
+  width: 80%;
+  margin: 5px 10%;
+  
+  border: none;
+  background: none;
+}
+
+.verse-list button:hover, .verse-list button:focus {
+  border: none;
+  outline: none;
+  outline: var(--hi) solid 4px;
+}
+
+.verse-list button:active {
+  background-color: var(--hi);
+  color: white;
+}
+
+.section-heading {
+  width: 100%;
+  background-color: none;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.last-pressed {
+  outline: var(--hi2) solid 4px !important;
+}
+
+.song-list-container {
+  display: inline-flex;
+  width: 30%;
+  min-width: 0;
+  min-height: 100px;
+  padding: 10px 5px;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-items: center;
+  overflow-y: hidden;
+  background-color: var(--c4);
+  
+}
+
+.song-list {
+  margin: 0;
+  margin-top: 10px;
+
+  padding: 2px 0px;
+  min-height: 50px;
+  width: auto;
+  overflow-y: hidden;
+  background-color: var(--c3);
+}
+
+.song-list li {
+  overflow-y: hidden;
+  width: 100%;
+  margin: 5px 0;
+}
+
+.song-button{
+  color: white;
+
+  font-size: 14px;
+  width: 80%;
+
+  margin: 0px 10%;
+
+  padding: 3px 0;
+
+  
+  outline: none;
+  border: none;
+
+
+  background: none;
+
+  overflow: hidden;
+
+  font-weight: bold;
+   
+}
+
+.song-button:hover {
+  color: var(--hi);
+  outline: var(--hi) solid 3px;
+}
+
+.song-button:active {
+  color: white;
+  outline: var(--hi) solid 3px;
+  background-color: var(--hi);
+}
+
+
+
+.song-button-list {
+  padding: 2px;
+
+  background-color: var(--c4);
+
+  overflow-y: hidden;
+}
+
+.song-button-list button {
+  background-color: var(--hi);
+
+  color: white;
+  font-weight: bold;
+
+  border: none;
+
+  padding: 4px;
+  
+  width: 30px;
+}
+
+
+
+@media (max-width:400px) {
+  .main-container {
+    flex-direction: column;
+  }
+  .container {
+    width: 90%;
+  }
+}
+
+
+

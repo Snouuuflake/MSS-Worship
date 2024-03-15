@@ -1,0 +1,152 @@
+
+/* Commonly used variables */
+:root {
+  /* How seconds of fade when changing what's being displayed */
+  --fadeDuration: 5s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn var(--fadeDuration);
+}
+
+.fadeOut {
+  animation: fadeOut var(--fadeDuration);
+}
+
+
+.display-container {
+  /* changing any of this will probably break everything */
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+
+.logo {
+  /* do not modify these values */
+  display: none;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0; 
+  left: 0;
+  z-index: 10;
+  object-fit:scale-down;
+  /* -------------------------- */
+
+
+  /* path to the logo image goes inside url("...") */
+  content: url("./logo-blanco-y-rojo-2023.png");
+  
+  /* color that will be shown where the logo image doesnt fill the screen or if its transparent */
+  background-color: black;
+
+}
+
+.black {
+  /* do not modify these value */
+  display: none;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0; 
+  left: 0;
+  z-index: 15;
+
+  background-color: black;
+  /* -------------------------- */
+}
+
+
+
+/* Affects text in all display windows */
+.display-global-text {
+  /* do not change width. */
+  width: 100%;
+  text-align: center;
+}
+
+/* Affects the body element of window 1 */
+.display-1-background {
+  background: black;
+}
+
+/* Affects the div containing the text of window 1 */
+.display-1-text {
+  /* changing these values will affect the margins the text has */
+  /* 1vh = 1% of window height, 1vw = 1% of window width */
+  padding-top: 0vh;
+  padding-bottom: 0vh;
+  padding-left: 0vw;
+  padding-right: 0vw;
+
+  /* text color */
+  color: white;
+
+  /* default font size.
+   * if the text does not fit at this size, it will be scaled down to fit. */
+  font-size: 50px;
+  
+  /* normal or bold */
+  font-weight: normal;
+}
+
+/* Affects the body element of window 2 */
+.display-2-background {
+  background: lightskyblue;
+} 
+
+/* Affects the div containing the text of window 2 */
+.display-2-text {
+  /* changing these values will affect the margins the text has */
+  /* 1vh = 1% of window height, 1vw = 1% of window width */
+  padding-top: 30vh;
+  padding-bottom: 0vh;
+  padding-left: 10vw;
+  padding-right: 10vw;
+
+  /* text color */
+  color: black;
+
+  /* default font size.
+   * if the text does not fit at this size, it will be scaled down to fit. */
+  font-size: 200px;
+
+  /* normal or bold */
+  font-weight: normal;
+}
+
+/* probably best not to edit this class */
+.display-img {
+  display: none;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
