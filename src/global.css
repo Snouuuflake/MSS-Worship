@@ -36,7 +36,7 @@ menu li {
   display: inline-block;
 }
 
-menu button, menu .checkboxLi{
+menu button {
   border: none;
   outline: none;
 
@@ -54,9 +54,6 @@ menu button {
   padding: 10px 15px;
 }
 
-menu .checkboxLi {
-  padding: 9px 15px;
-}
 
 menu button:hover {
   background-color: var(--hi);
@@ -64,6 +61,11 @@ menu button:hover {
 
 menu button:active {
   color: var(--hi);
+}
+
+.check-active {
+  background-color: var(--hi) !important;
+
 }
 
 .main-container {

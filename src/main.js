@@ -33,7 +33,6 @@ document.addEventListener("keydown", function(event){
 
 
 
-
  
 function drawVerse(verse) {
   let i = 0;
@@ -231,20 +230,32 @@ window2Button.addEventListener("click", () => {
 });
 
 const logoButton = document.querySelector("#to-logo");
+logoButton.on = 0;
+
 logoButton.addEventListener("click", () => {
-  if (logoButton.checked) {
-    window.mainAPI.sendToLogo("on");
-  } else {
+  if (logoButton.on) {
     window.mainAPI.sendToLogo("off");
+    logoButton.on = 0;
+    logoButton.classList.remove("check-active");
+  } else {
+    window.mainAPI.sendToLogo("on");
+    logoButton.on = 1;
+    logoButton.classList.add("check-active");
   }
 });
 
 const blackButton = document.querySelector("#to-black");
+blackButton.on = 0;
+
 blackButton.addEventListener("click", () => {
-  if (blackButton.checked) {
-    window.mainAPI.sendToBlack("on");
-  } else {
+  if (blackButton.on) {
     window.mainAPI.sendToBlack("off");
+    blackButton.on = 0;
+    blackButton.classList.remove("check-active");
+  } else {
+    window.mainAPI.sendToBlack("on");
+    blackButton.on = 1;
+    blackButton.classList.add("check-active");
   }
 });
 
