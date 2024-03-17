@@ -10,6 +10,9 @@ const verseList = document.querySelector(".verse-list");
 
 let listItems = document.querySelectorAll(".verse-button");
 
+// css root
+const r = document.querySelector(":root");
+
 // "current selected button"
 let currentLI = 0;
 // Set up a key event handler for the document
@@ -270,3 +273,33 @@ window.mainAPI.onImageAdded((value) => {
   renderSongList.push({type: "image", path: value});
   drawSongList();
 })
+
+
+// lightmode toggle
+const lightModeButton = document.querySelector("#to-light-mode");
+let lightMode = false;
+
+lightModeButton.addEventListener("click", () => {
+  if (!lightMode) {
+    r.style.setProperty("--tc", "black");
+    r.style.setProperty("--c3", "#EDE4E4");
+    r.style.setProperty("--c2", "#CDC5C5");
+    r.style.setProperty("--c1", "#ADA9A9");
+    r.style.setProperty("--c4", "white");
+
+    lightMode = true;
+
+    lightModeButton.classList.add("check-active");
+  } else {
+    r.style.setProperty("--tc", "white");
+    r.style.setProperty("--c1", "#CED4DA");
+    r.style.setProperty("--c2", "#6C757D");
+    r.style.setProperty("--c3", "#343A40");
+    r.style.setProperty("--c4", "#212529");
+
+    lightMode = false;
+
+    lightModeButton.classList.remove("check-active");
+  }
+})
+
