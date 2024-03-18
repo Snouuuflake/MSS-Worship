@@ -1,11 +1,15 @@
 :root {
-  --hi: #e63946;
   --c1: #CED4DA;
   --c2: #6C757D;
   --c3: #343A40;
   --c4: #212529;
 
+  --hi:  #e63946;
+  --hiVals:  230, 57, 70;
+
   --hi2: #3498DB;
+  --hi2Vals: 52, 152, 219;
+
   --tc: white;
 
   --br: 13px;
@@ -105,7 +109,7 @@ ul {
 .verse-list {
   background-color: var(--c4);
   
-  margin: 2%, 4%;
+  margin: 0 15px;
 }
 
 .verse-list li {
@@ -135,7 +139,12 @@ ul {
 
 .section-heading {
   width: 100%;
-  background-color: none;
+  border-radius: var(--br);
+  background-image: linear-gradient(to right, rgba(var(--hiVals), 1),
+                    color-mix(in srgb, rgba(var(--hiVals), 0.7) 30%, rgba(var(--hi2Vals), 0.7) 70% ) 55px,
+                    rgba(var(--hi2Vals), 0) 100px);
+  padding-left: 15px;
+  margin-top: 15px;
   font-size: 25px;
   font-weight: bold;
 }
