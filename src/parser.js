@@ -77,8 +77,7 @@ function parseMSS(multilineStr){
 
   readAuthor = readProperty(argLines, "A");
   if (readAuthor.error != "none") {
-    output.error = readAuthor.error;
-    return output;
+    output.song.data.author = "None";
   } else {
     output.song.data.author = readAuthor.value;
   }
