@@ -1,0 +1,10 @@
+!-T  a
+!-A someone
+
+!-S verse
+verse lyrics
+verse lyrics
+
+!-S chorus
+some chorus lyric
+

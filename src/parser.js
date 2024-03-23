@@ -25,9 +25,13 @@ function readProperty(argLines, char) {
   if (filtered.length == 0) {
     output.error = `File is missing command: !-${char}` ;
   } else if (filtered.length != 1) {
-    output.error = `Command !-${char} is defined more than once.` ;
+    output.error = `Command !-${char} is defined more than once` ;
   } else {
     output.value = filtered[0].substring(3).trim();
+  }
+
+  if (output.value.trim() == "") {
+    output.error = `Command: !-${char} has no value`;
   }
 
   return output;
@@ -109,9 +113,9 @@ function parseMSS(multilineStr){
     if ((lineSearchRes.length != 0) && (lines[i].substring(0,3) == "!-R")) {
 
       // if it found a repetition but theres no content between it and the last section definition, throw error
-      if (lines.slice(currentSectStart + 1, i).filter((line) => line == "").length == (currentSectStart + 1 - i)) {
+      if (lines.slice(currentSectStart + 1, i).filter((line) => line == "").length == (i - (currentSectStart + 1))) {
 
-        output.error = "Section: " + getParam(lines[currentSectStart]) + " before repeition: " + lines[i] + "is not defined";
+        output.error = "Section: " + getParam(lines[currentSectStart]) + " before repeition: " + lines[i] + " is not defined";
         return output;
 
       }
@@ -128,7 +132,7 @@ function parseMSS(multilineStr){
     } else if (lineSearchRes.length > 1) {
       
       // if a section is defined twice
-      output.error = "Section: " + getParam(lines[i]) + "is defined more than once";
+      output.error = "Section: " + getParam(lines[i]) + " is defined more than once";
       return output;
 
       
@@ -150,9 +154,9 @@ function parseMSS(multilineStr){
         currentSectStart = i;
 
       // if theres no content between !-S and the previous one !-S
-      } else if (lines.slice(currentSectStart + 1, i).filter((line) => line == "").length == (currentSectStart + 1 - i)) {
+      } else if (lines.slice(currentSectStart + 1, i).filter((line) => line == "").length == (i - (currentSectStart + 1))) {
 
-        output.error = "Section: " + getParam(lines[i]) + "has no content.";
+        output.error = "Section: " + getParam(lines[i]) + " has no content.";
         return output;
 
       // if it just found a valid S i think i hope
@@ -220,7 +224,7 @@ function parseMSS(multilineStr){
   // if it finds a repetition thats not defined as a section
   for (let sectName of output.song.sectionOrder) {
     if (!(definedSectNames.find((name) => name == sectName))) {
-      output.error = "Section: " + sectName + "is repeated but not defined";
+      output.error = "Section: " + sectName + " is repeated but not defined";
     }
   }
 
