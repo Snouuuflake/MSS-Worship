@@ -15,6 +15,7 @@ Thus, the project was started with the following objectives in mind, named after
 - Image projection
 
 ## Planned Features
+- Ability to read an entire setlist from a folder
 - Video projection
 - Native Bible verse projection
 
