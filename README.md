@@ -12,10 +12,12 @@ Thus, the project was started with the following objectives in mind, named after
 - Automatic text scaling with a configurable maximum font size
 - Custom lyric format that allows for automatic section repetition
 - Two separate projection windows, each fully and independently customizable via css
-- Image projection
+- Image projection (supported formats: jpeg, jpg, gif, png)
+#### New in v0.3.1:
+- Ability to read an entire setlist from a folder
+- Ability to write an entire setlist to a folder, preserving the order of its items
 
 ## Planned Features
-- Ability to read an entire setlist from a folder
 - Video projection
 - Native Bible verse projection
 
