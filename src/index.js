@@ -1,3 +1,4 @@
+const { spawn } = require('child_process');
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -158,7 +159,7 @@ function readSong(path) {
 
   // if no error, sends it to the main window
   if (readOutput.error == "none") {
-    const stringifiedSong = JSON.stringify(readOutput.song);
+    const stringifiedSong = JSON.stringify({song: readOutput.song, "path": path});
     globalWindowList[0].webContents.send("add-song-to-main", stringifiedSong);
     // if error, prints the error dialog
   } else {
@@ -227,7 +228,7 @@ ipcMain.on("read-dir", (event, data) => {
     if (!response.canceled) {
       let filenames = fs.readdirSync(response.filePaths[0]);
       for (let filename of filenames) {
-        let path = response.filePaths[0] + "/" + filename;
+        let path = response.filePaths[0] + "\\" + filename;
         let ext = getExtension(path);
         console.log("reading from dir: ", path, " ", ext);
 
@@ -245,6 +246,81 @@ ipcMain.on("read-dir", (event, data) => {
     }
   });
 })
+
+
+/**
+ * Spawns a child that runs cp inputPath outputPath command
+ */
+function spawnCP(inputPath, outputPath) {
+  console.log("copying ", inputPath, "   ", outputPath);
+  // FIXME: copy is a windows command.
+  // const child = execute("copy" + " " + "\"" + inputPath + "\"" + " " + "\"" + outputPath + "\"");
+  const child = spawn('copy', [`"${inputPath}"`, `"${outputPath}"`], {shell: true});
+  // child.on('exit', function (code, signal) {
+  //   console.log(`child process (cp ${inputPath} ${outputPath} exited with ` + `code ${code} and signal ${signal}`);
+  // });
+
+  child.on('error', err => ( console.log(err) ));
+  child.stdout.on('data', (data) => {
+    //Here is the output
+    data=data.toString();   
+    console.log(data);      
+  });
+
+  // console.log("env!!!!!! ", process.env.PATH );
+}
+
+/**
+ * @return the correct amount of 0s to make a < 1000 number 3 digits (001) (024) (982)
+ */
+function get0s(num) {
+  return (num >= 100) ? "" : (num >= 10) ? "0" : "00";
+}
+
+ipcMain.on("save-dir", (event, data) => {
+  // we're gonna send all paths to main.js via ipc so they can be stored inside song/image objects.
+  // the we're gonna recieve that list, in order, and run mv command while adding ###!-H prefix to the files.
+  pathArray = JSON.parse(data);
+
+  dialog.showOpenDialog({properties: ['openDirectory'] }).then(function (response) {
+    if (!response.canceled) {
+
+      let outputPath = response.filePaths[0];
+      let i = 1;
+
+      for (let path of pathArray) {
+        if (i < 1000) {
+          let filename = path;
+
+          if (filename.includes("\\")) {
+            filename = filename.substring(filename.lastIndexOf('\\')+1);
+          }
+
+          if (filename.includes("/")) {
+            filename = filename.substring(filename.lastIndexOf('/')+1);
+          }
+
+          // hides anything before the !-H command
+          if (filename.includes("!-H")) {
+            filename = filename.substring(filename.lastIndexOf('!-H')+3).trim();
+          }
+
+          // if (filename.includes(":")) {
+          //   filename = filename.substring(filename.lastIndexOf(':')+1);
+          // }
+          spawnCP(path, outputPath + "\\" + get0s(i)  + i.toString() + "!-H" + filename);
+        }
+        i++;
+      }
+
+      // does nothing if the user didnt select a file
+    } else {
+      console.log("no file selected");
+    }
+  });
+});
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

@@ -240,6 +240,12 @@ readDirButton.addEventListener("click", () => {
   window.mainAPI.sendReadDir();
 });
 
+const saveDirButton = document.querySelector("#save-dir");
+saveDirButton.addEventListener("click", () => {
+  console.log("sending saveDir: ", renderSongList.map(a => a.path))
+  window.mainAPI.sendSaveDir(JSON.stringify(renderSongList.map(a => a.path)));
+});
+
 const window1Button = document.querySelector("#create-window-1");
 window1Button.addEventListener("click", () => {
   window.mainAPI.sendCreateWindow(1);
@@ -281,8 +287,11 @@ blackButton.addEventListener("click", () => {
 });
 
 window.mainAPI.onSongAdded((value) => {
-  const parsedSong = JSON.parse(value);
+  const parsedJson = JSON.parse(value);
+  const parsedSong = parsedJson.song;
+  console.log("parsedJson.path: ", parsedJson.path);
   parsedSong.type = "song";
+  parsedSong.path = parsedJson.path; // this is dumb but it works and is somehow clearer to me..
   renderSongList.push(parsedSong);
   drawSongList();
 })

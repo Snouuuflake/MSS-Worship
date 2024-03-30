@@ -209,18 +209,20 @@ ul {
 }
 
 .has-song {
-  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi) 30%, var(--c3) ), var(--c3)) !important;
+  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi) 30%, var(--c3) ), var(--c3)) ;
 }
 
 .has-image {
-  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi2) 30%, var(--c3) ), var(--c3)) !important;
+  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi2) 30%, var(--c3) ), var(--c3)) ;
 }
 
 .song-button:hover {
+  background-image: none;
   background-color: var(--c2);
 }
 
 .song-button:active {
+  background-image: none;
   background-color: var(--hi);
 }
 
