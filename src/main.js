@@ -128,6 +128,7 @@ function drawSongButton(song, index) {
   const thisButton = document.createElement("button");
 
   thisButton.classList.add("song-button");
+  thisButton.classList.add("has-song");
   thisButton.innerText = song.data.title;
 
   thisButton.addEventListener("click", () => {
@@ -149,6 +150,7 @@ function drawImageButton(image, index) {
   const thisButton = document.createElement("button");
 
   thisButton.classList.add("song-button");
+  thisButton.classList.add("has-image");
 
   // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!
   // the above problem is now solved with the two if statements
@@ -162,7 +164,7 @@ function drawImageButton(image, index) {
 
   // hides anything before the !-H command
     if (thisButton.innerText.includes("!-H")) {
-    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H')+1).trim();
+    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H')+3).trim();
   }
 
 

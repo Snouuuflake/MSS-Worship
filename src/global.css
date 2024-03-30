@@ -52,8 +52,6 @@ menu button {
 
   font-size: 15px;
   font-weight: bold;
-  text-align: left;
-  white-space: nowrap;
 
   background-color: var(--c3);
 }
@@ -193,22 +191,29 @@ ul {
   font-size: 14px;
   width: 80%;
 
-  margin: 0px 10%;
+  margin: 0px 5%;
 
-  padding: 3px 0;
+  padding: 3px 8px;
   
   outline: none;
   border: none;
 
   border-radius: var(--br);
 
-
-  background: none;
+  text-align: left;
+  white-space: nowrap;
 
   overflow: hidden;
 
   font-weight: bold;
-   
+}
+
+.has-song {
+  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi) 30%, var(--c3) ), var(--c3)) !important;
+}
+
+.has-image {
+  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi2) 30%, var(--c3) ), var(--c3)) !important;
 }
 
 .song-button:hover {
