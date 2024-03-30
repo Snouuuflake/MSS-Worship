@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
 
   sendReadSong: () => ipcRenderer.send("read-song", "a message"),
   sendReadImage: () => ipcRenderer.send("read-image", "a message"),
+  sendReadDir: () => ipcRenderer.send("read-dir", "a message"),
 
   sendDisplayText: (data) => ipcRenderer.send("display-text-to-main", data),
   sendDisplayImage: (data) => ipcRenderer.send("display-image-to-main", data),

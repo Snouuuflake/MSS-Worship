@@ -34,16 +34,16 @@ function printError(code) {
 
 /* Removes user access to shortcuts for refresing the page */
 app.on('browser-window-focus', function () {
-    globalShortcut.register("CommandOrControl+R", () => {
-        console.log("CommandOrControl+R is pressed: Shortcut Disabled");
-    });
-    globalShortcut.register("F5", () => {
-        console.log("F5 is pressed: Shortcut Disabled");
-    });
+  globalShortcut.register("CommandOrControl+R", () => {
+    console.log("CommandOrControl+R is pressed: Shortcut Disabled");
+  });
+  globalShortcut.register("F5", () => {
+    console.log("F5 is pressed: Shortcut Disabled");
+  });
 });
 app.on('browser-window-blur', function () {
-    globalShortcut.unregister('CommandOrControl+R');
-    globalShortcut.unregister('F5');
+  globalShortcut.unregister('CommandOrControl+R');
+  globalShortcut.unregister('F5');
 });
 
 
@@ -83,7 +83,7 @@ const createDisplayWindow = (windowNumber) => {
   thisWindow.on("close", () => {
     globalWindowList[thisWindow.globalListIndex] = null;
   })
-  
+
 }
 
 
@@ -148,10 +148,26 @@ ipcMain.on("create-display-window", (event, data) => {
   createDisplayWindow(data);
 });
 
+/**
+ * reads one song and sends ipc event to put it in the main window
+ * @param path to song file
+ */
+function readSong(path) {
+  // tries to parse the file
+  const readOutput = Parser.readMSS(path);
+
+  // if no error, sends it to the main window
+  if (readOutput.error == "none") {
+    const stringifiedSong = JSON.stringify(readOutput.song);
+    globalWindowList[0].webContents.send("add-song-to-main", stringifiedSong);
+    // if error, prints the error dialog
+  } else {
+    printError(readOutput.error);
+  }
+}
 
 // opens a song file and sends it to the main window
 ipcMain.on("read-song", (event, data) => {
-
   // opens native file dialog
   dialog.showOpenDialog({properties: ['openFile'] }).then(function (response) {
     // if the user finished loading a file
@@ -159,31 +175,22 @@ ipcMain.on("read-song", (event, data) => {
 
       console.log(response.filePaths[0]);
 
-      // tries to parse the file
-      const readOutput = Parser.readMSS(response.filePaths[0]);
+      readSong(response.filePaths[0]);
 
-      // if no error, sends it to the main window
-      if (readOutput.error == "none") {
-
-        const stringifiedSong = JSON.stringify(readOutput.song);
-        globalWindowList[0].webContents.send("add-song-to-main", stringifiedSong);
-
-      // if error, prints the error dialog
-      } else {
-
-        printError(readOutput.error);
-
-      }
-
-    // does nothing if the user didnt select a file
+      // does nothing if the user didnt select a file
     } else {
-
       console.log("no file selected");
-
     }
   });
 })
 
+/**
+ * reads an image from a path
+ * @param path
+ */
+function readImage(path) {
+  globalWindowList[0].webContents.send("add-image-to-main", path);
+}
 
 // opens an image and ends the address to the main display window
 ipcMain.on("read-image", (event, data) => {
@@ -192,17 +199,49 @@ ipcMain.on("read-image", (event, data) => {
   dialog.showOpenDialog({properties: ['openFile'] }).then(function (response) {
     // if the user finished loading a file
     if (!response.canceled) {
-
       console.log(response.filePaths[0]);
 
-
-      globalWindowList[0].webContents.send("add-image-to-main", response.filePaths[0]);
-
-    // does nothing if the user didnt select a file
+      readImage(response.filePaths[0]);
+      // does nothing if the user didnt select a file
     } else {
-
       console.log("no file selected");
+    }
+  });
+})
 
+
+/**
+ * @return the extension of a file from its path
+ */
+function getExtension(path) {
+  return path.substring(path.lastIndexOf('.')+1, path.length) || path;
+}
+
+
+// reads a whole directory and tries to 
+// parse .mss and .txt files, and adds 
+// files with image terminations
+ipcMain.on("read-dir", (event, data) => {
+
+  dialog.showOpenDialog({properties: ['openDirectory'] }).then(function (response) {
+    if (!response.canceled) {
+      let filenames = fs.readdirSync(response.filePaths[0]);
+      for (let filename of filenames) {
+        let path = response.filePaths[0] + "/" + filename;
+        let ext = getExtension(path);
+        console.log("reading from dir: ", path, " ", ext);
+
+        if ((ext == "txt") || (ext == "mss")) {
+          readSong(path);
+        }
+
+        if ((ext == "jpeg") || (ext == "jpg") || (ext == "gif") || (ext == "png")) {
+          readImage(path);
+        }
+      }
+      // does nothing if the user didnt select a file
+    } else {
+      console.log("no file selected");
     }
   });
 })
@@ -215,8 +254,6 @@ app.on('ready', () => {
   createMainWindow();
 
   console.log(BrowserWindow.getAllWindows());
-
-
 });
 
 

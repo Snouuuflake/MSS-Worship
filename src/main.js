@@ -35,8 +35,6 @@ document.addEventListener("keydown", function(event){
 });
 
 
-
- 
 function drawVerse(verse) {
   let i = 0;
   let contentStr = "";
@@ -153,7 +151,15 @@ function drawImageButton(image, index) {
   thisButton.classList.add("song-button");
 
   // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!1
-  thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\')+1);
+  // the above problem is now solved with the two if statements
+  if (image.path.includes("\\")) {
+    thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\')+1);
+  }
+  
+
+  if (thisButton.innerText.includes("/")) {
+    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('/')+1);
+  }
 
   thisButton.addEventListener("click", () => {
     const verseList = document.querySelector(".verse-list");
@@ -220,6 +226,11 @@ readSongButton.addEventListener("click", () => {
 const readImageButton = document.querySelector("#read-image");
 readImageButton.addEventListener("click", () => {
   window.mainAPI.sendReadImage();
+});
+
+const readDirButton = document.querySelector("#read-dir");
+readDirButton.addEventListener("click", () => {
+  window.mainAPI.sendReadDir();
 });
 
 const window1Button = document.querySelector("#create-window-1");
