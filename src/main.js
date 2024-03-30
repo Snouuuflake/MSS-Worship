@@ -150,16 +150,21 @@ function drawImageButton(image, index) {
 
   thisButton.classList.add("song-button");
 
-  // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!1
+  // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!
   // the above problem is now solved with the two if statements
   if (image.path.includes("\\")) {
     thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\')+1);
   }
-  
 
   if (thisButton.innerText.includes("/")) {
     thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('/')+1);
   }
+
+  // hides anything before the !-H command
+    if (thisButton.innerText.includes("!-H")) {
+    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H')+1).trim();
+  }
+
 
   thisButton.addEventListener("click", () => {
     const verseList = document.querySelector(".verse-list");
