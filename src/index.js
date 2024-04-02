@@ -132,6 +132,9 @@ ipcMain.on("display-text-to-main", (event, data) => {
   sendToAllWindows("display-text-to-display", data);
 });
 
+ipcMain.on("clear-display", (event, data) => {
+  sendToAllWindows("clear-display", data);
+});
 
 ipcMain.on("display-image-to-main", (event, data) => {
   sendToAllWindows("display-image-to-display", data);

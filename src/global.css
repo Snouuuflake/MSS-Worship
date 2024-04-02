@@ -20,8 +20,6 @@
   color: var(--tc);
 }
 
-
-
 body {
   background-color: var(--c4);
 }
@@ -30,10 +28,16 @@ body {
 .logo-container {
   margin-top: 1px;
 }
+
 .logo-img {
   height: 100px;
 }
 
+.top-menu-container {
+  position: sticky;
+  top: 0;
+  background: var(--c4);
+}
  
 menu {
   list-style-type: none;
@@ -44,31 +48,32 @@ menu li {
   display: inline-block;
 }
 
-menu button {
+.menu-button {
   border: none;
   outline: none;
-
   margin-right: 13px;
-
   font-size: 15px;
   font-weight: bold;
-
   background-color: var(--c3);
 }
 
-menu button {
+.menu-button {
   padding: 10px 15px;
   margin-bottom: 10px;
   border-radius: var(--br);
 }
 
 
-menu button:hover {
+.menu-button:hover {
   background-color: var(--hi);
 }
 
-menu button:active {
+.menu-button:active {
   color: var(--hi);
+}
+
+.special-menu-button {
+  background-color: var(--hi2);
 }
 
 .check-active {

@@ -172,8 +172,16 @@ function drawImageButton(image, index) {
     const verseList = document.querySelector(".verse-list");
     // clears the verse list when sending a song
     verseList.innerHTML = "";
-    window.mainAPI.sendDisplayImage(image.path);
     currentButtonIndex = index;
+
+    const showButton = document.createElement("button");
+    showButton.classList.add("menu-button");
+    showButton.innerText = "Show Image";
+    showButton.addEventListener("click", () => {
+      window.mainAPI.sendDisplayImage(image.path);
+    });
+
+    verseList.appendChild(showButton);
   })
 
   thisLi.appendChild(thisButton);
@@ -330,3 +338,7 @@ lightModeButton.addEventListener("click", () => {
   }
 })
 
+const clearDisplayButton = document.querySelector("#clear-display");
+clearDisplayButton.addEventListener("click", () => {
+  window.mainAPI.sendClearDisplay();
+})

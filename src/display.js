@@ -92,3 +92,8 @@ window.displayAPI.onGetBlack( (value) => {
 });
 
 
+window.displayAPI.onClearDisplay( (value) => {
+  displayDiv.innerHTML = "";
+  displayDiv.style.display = "none";
+  displayImg.style.display = "none";
+});
