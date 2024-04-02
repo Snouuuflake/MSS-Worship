@@ -1,7 +1,7 @@
 {
   "name": "mss-worship",
   "productName": "mss-worship",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "CSS-based lyric proejction software",
   "main": "src/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
       "target": "NSIS"
     },
     "dmg": {
-      "title": "MSS-Worship 0.3.1"
+      "title": "MSS-Worship 0.3.2"
     }
   },
   "keywords": [],
