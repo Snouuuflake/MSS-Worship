@@ -1,7 +1,8 @@
 :root {
   --c1: #CED4DA;
   --c2: #6C757D;
-  --c3: #343A40;
+  --c3: #30383F;
+  --c3Vals: 48, 56, 63;
   --c4: #212529;
 
   --hi:  #e63946;
@@ -13,6 +14,15 @@
   --tc: white;
 
   --br: 13px;
+
+  --softBg: linear-gradient(90deg, rgba(54,23,24,1) 0%, rgba(14,27,36,1) 100%);
+  --scrollBg: #1e2c37;
+  --scrollMix: #ffffff; /* color to mix --scrollBg with to make thumb stand out */
+
+  --shadowNums: 0, 0, 0, 0.1;
+  --shadowPower: 0.2;
+
+  --logoShadowA: 0.0;
 }
 
 * {
@@ -22,27 +32,60 @@
 
 body {
   background-color: var(--c4);
+  background: var(--softBg);
+  /* scrollbar-gutter: stable; */
 }
 
+body::-webkit-scrollbar {
+  width: 12px;
+}
+body::-webkit-scrollbar-corner {
+  background: var(--scrollBg);
+}
+body::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--scrollBg) 80%, var(--scrollMix));
+  border-radius: 6px;
+  border: none;
+  background-clip: content-box;
+  min-width: 32px;
+  min-height: 32px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--scrollBg);
+}
 
 .logo-container {
   margin-top: 1px;
 }
 
 .logo-img {
+  --oc: rgba(255,255,255, var(--logoShadowA));
   height: 100px;
+  filter: drop-shadow(1px 1px 0 var(--oc)) 
+          drop-shadow(1px -1px 0 var(--oc)) 
+          drop-shadow(-1px 1px 0 var(--oc))
+          drop-shadow(-1px -1px 0 var(--oc))
+          drop-shadow(0 0 6px rgba(var(--shadowNums)));
+  padding-bottom: 8px;
 }
 
 .top-menu-container {
   position: sticky;
   top: 0;
-  background: var(--c4);
+  background: var(--softBg);
+  mask-image: linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,1) 30px );
   padding-top: 7px;
+  padding-bottom: 30px;
 }
- 
+
 menu {
   list-style-type: none;
   padding: 0;
+  margin: 0;
+  padding-top: 11px;
+  padding-bottom: 1px;
+  padding-left: 11px;
+  padding-right: 11px;
 }
 
 menu li {
@@ -55,7 +98,8 @@ menu li {
   margin-right: 13px;
   font-size: 15px;
   font-weight: bold;
-  background-color: var(--c3);
+  background-color: rgba(var(--c3Vals), 0.6);
+  box-shadow: 0 0 10px rgba(0,0,0,var(--shadowPower));
 }
 
 .menu-button {
@@ -107,13 +151,13 @@ ul {
   width: 60%;
   min-height: 100px;
 
-  background-color: var(--c4); 
+  /* background-color: var(--c4);  */
 
 }
 
 .verse-list {
-  background-color: var(--c4);
-  
+  /* background-color: var(--c4); */
+
   margin: 0 15px;
 }
 
@@ -146,8 +190,8 @@ ul {
   width: 100%;
   border-radius: var(--br);
   background-image: linear-gradient(to right, rgba(var(--hiVals), 1),
-                    color-mix(in srgb, rgba(var(--hiVals), 0.7) 30%, rgba(var(--hi2Vals), 0.7) 70% ) 55px,
-                    rgba(var(--hi2Vals), 0) 100px);
+    color-mix(in srgb, rgba(var(--hiVals), 0.7) 30%, rgba(var(--hi2Vals), 0.7) 70% ) 55px,
+    rgba(var(--hi2Vals), 0) 100px);
   padding-left: 15px;
   margin-top: 15px;
   font-size: 25px;
@@ -169,8 +213,8 @@ ul {
   flex-direction: column;
   justify-items: center;
   overflow-y: hidden;
-  background-color: var(--c4);
-  
+  /* background-color: var(--c4); */
+
   position: sticky;
   top: 0;
   /* we need to get the height of menu container and set top: to that. */
@@ -184,7 +228,7 @@ ul {
   min-height: 50px;
   width: auto;
   overflow-y: hidden;
-  background-color: var(--c3);
+  background-color: rgba(var(--c3Vals), 0.6);
 
   border-radius: var(--br);
 }
@@ -203,11 +247,11 @@ ul {
   margin: 0px 5%;
 
   padding: 3px 8px;
-  
+
   outline: none;
   border: none;
 
-  border-radius: var(--br);
+  border-radius: 7px;
 
   text-align: left;
   white-space: nowrap;
@@ -218,11 +262,25 @@ ul {
 }
 
 .has-song {
-  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi) 30%, var(--c3) ), var(--c3)) ;
+  background: linear-gradient(to right, color-mix(in srgb, rgba(var(--hiVals), 1.0) 30%, rgba(var(--c3Vals), 1.0)), rgba(var(--c3Vals), 0.0));
+  /* background: linear-gradient(to right, */
+  /*   color-mix(in srgb, */
+  /*   rgba(var(--hiVals), 1.0) 30%, */
+  /*   rgba(var(--c3Vals), 1.0) */
+  /*   ), */
+  /*   rgba(var(--c3Vals), 0.0) */
+  /*   ); */
 }
 
 .has-image {
-  background-image: linear-gradient(to right, color-mix(in srgb, var(--hi2) 30%, var(--c3) ), var(--c3)) ;
+  background: linear-gradient(to right, color-mix(in srgb, rgba(var(--hi2Vals), 1.0) 30%, rgba(var(--c3Vals), 1.0)), rgba(var(--c3Vals), 0.0)) ;
+  /* background-image: linear-gradient(to right, */
+  /*   color-mix(in srgb, */
+  /*   rgba(var(--hi2Vals), 1.0) 30%, */
+  /*   rgba(var(--c3Vals), 1.0) */
+  /*   ), */
+  /*   rgba(var(--c3Vals), 0.0) */
+  /*   ) ; */
 }
 
 .song-button:hover {
@@ -240,7 +298,7 @@ ul {
 .song-button-list {
   padding: 2px;
 
-  background-color: var(--c4);
+  /* background-color: var(--c4); */
 
   border-radius: var(--br);
 
@@ -258,7 +316,7 @@ ul {
   border-radius: var(--br);
 
   padding: 4px;
-  
+
   width: 30px;
 }
 
@@ -270,6 +328,12 @@ ul {
   }
   .container {
     width: 90%;
+  }
+  .top-menu-container {
+    position: static;
+  }
+  .song-list-container {
+    position: static;
   }
 }
 

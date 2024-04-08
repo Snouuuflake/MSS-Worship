@@ -332,7 +332,13 @@ lightModeButton.addEventListener("click", () => {
     r.style.setProperty("--c2", "#CDC5C5");
     r.style.setProperty("--c1", "#ADA9A9");
     r.style.setProperty("--c4", "white");
-
+    r.style.setProperty("--softBg", "linear-gradient(90deg, rgba(224,141,144,1) 0%, rgba(148,190,219,1) 100%)");
+    r.style.setProperty("--scrollBg", "#b4d7f2");
+    r.style.setProperty("--scrollMix", "#000000");
+    r.style.setProperty("--shadowNums", "0,0,0, 0.3");
+    r.style.setProperty("--shadowPower", "0.4");
+    r.style.setProperty("--c3Vals", "237, 228, 228");
+    r.style.setProperty("--logoShadowA", "0.7");
     lightMode = true;
 
     lightModeButton.classList.add("check-active");
@@ -342,6 +348,13 @@ lightModeButton.addEventListener("click", () => {
     r.style.setProperty("--c2", "#6C757D");
     r.style.setProperty("--c3", "#343A40");
     r.style.setProperty("--c4", "#212529");
+    r.style.setProperty("--softBg", "linear-gradient(90deg, rgba(54,23,24,1) 0%, rgba(14,27,36,1) 100%)");
+    r.style.setProperty("--scrollBg", "#1e2c37");
+    r.style.setProperty("--scrollMix", "#ffffff");
+    r.style.setProperty("--shadowNums", "0, 0, 0, 0.1");
+    r.style.setProperty("--shadowPower", "0.2");
+    r.style.setProperty("--c3Vals", "48, 56, 63");
+    r.style.setProperty("--logoShadowA", "0.0");
 
     lightMode = false;
 
