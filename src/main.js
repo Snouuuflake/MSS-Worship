@@ -8,11 +8,13 @@ let globalButtonCounter = 0;
 const verseList = document.querySelector(".verse-list");
 
 
-let listItems = document.querySelectorAll(".verse-button");
+let verseButtons = document.querySelectorAll(".verse-button");
+let songButtons = document.querySelectorAll(".song-button");
 
 // css root
 const r = document.querySelector(":root");
 
+// fixes song menu height
 document.querySelector(".song-list-container").style.top = (
   document.querySelector(".top-menu-container").getBoundingClientRect().height
 ) + "px";
@@ -25,23 +27,39 @@ window.addEventListener('resize', function(event) {
 
 
 // "current selected button"
-let currentLI = 0;
+let currentVerseLI = 0;
+let currentSongLI = 0;
+
 // Set up a key event handler for the document
 document.addEventListener("keydown", function(event){
   // Check for up/down key presses
   switch(event.key){
     case "ArrowUp": // Up arrow    
 
-      currentLI = currentLI > 0 ? --currentLI : 0;     // Decrease the counter      
-      listItems[currentLI].focus();
+      currentVerseLI = currentVerseLI > 0 ? --currentVerseLI : 0;     // Decrease the counter      
+      verseButtons[currentVerseLI].focus();
 
       break;
     case "ArrowDown": // Down arrow
 
-      currentLI = currentLI < listItems.length-1 ? ++currentLI : listItems.length-1; // Increase counter 
-      listItems[currentLI].focus();
+      currentVerseLI = currentVerseLI < verseButtons.length-1 ? ++currentVerseLI : verseButtons.length-1; // Increase counter 
+      verseButtons[currentVerseLI].focus();
+
+      break;
+    case "W":
+    case "w":
+
+      currentSongLI = currentSongLI > 0 ? --currentSongLI : 0;     // Decrease the counter      
+      songButtons[currentSongLI].focus();
 
       break;    
+    case "S":
+    case "s":
+
+      currentSongLI = currentSongLI < songButtons.length-1 ? ++currentSongLI : songButtons.length-1; // Increase counter 
+      songButtons[currentSongLI].focus();
+
+      break;
   }
 });
 
@@ -73,7 +91,7 @@ function drawVerse(verse) {
     window.mainAPI.sendDisplayText(contentStr);
 
     // for arrow keys to sync right
-    currentLI = verseButton.globalIndex;
+    currentVerseLI = verseButton.globalIndex;
 
     if (lastPressed) {
       lastPressed.classList.remove("last-pressed");
@@ -110,7 +128,7 @@ function drawSong(song) {
   verseList.innerHTML = "";
 
   // resettind when drawing song
-  currentLI = 0;
+  currentVerseLI = 0;
   globalButtonCounter = 0;
 
   for (let sectionName of song.sectionOrder) {
@@ -119,9 +137,9 @@ function drawSong(song) {
     drawSection(song.sections.find( (s) => s.name == sectionName));
 
   }
-  listItems = document.querySelectorAll(".verse-button");
+  verseButtons = document.querySelectorAll(".verse-button");
 
-  listItems[0].focus();
+  verseButtons[0].focus();
 }
 
 
@@ -217,6 +235,9 @@ function drawSongList() {
       i++;
     }
   }
+
+  songButtons = document.querySelectorAll(".song-button");
+  currentSongLI = 0;
 }
 
 

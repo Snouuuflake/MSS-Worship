@@ -1,0 +1,4 @@
+
+let songButtons = document.querySelectorAll(".song-button");
+let currentSongLI = 0;
+

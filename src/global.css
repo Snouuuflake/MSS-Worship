@@ -283,8 +283,8 @@ ul {
   /*   ) ; */
 }
 
-.song-button:hover {
-  background-image: none;
+.song-button:hover, .song-button:focus {
+  background: #ffffff;
   background-color: var(--c2);
 }
 
