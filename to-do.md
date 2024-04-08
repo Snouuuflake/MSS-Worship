@@ -1,3 +1,3 @@
 [ ] Hotkeys for selecting song/media, and activating buttons.
-[ ] Instead of having sticky top controls, make verse button container have fixed height/scroll.
+[ ] Sticky song/media selector as well as top buttons.
 

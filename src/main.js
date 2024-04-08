@@ -13,6 +13,17 @@ let listItems = document.querySelectorAll(".verse-button");
 // css root
 const r = document.querySelector(":root");
 
+document.querySelector(".song-list-container").style.top = (
+  document.querySelector(".top-menu-container").getBoundingClientRect().height
+) + "px";
+
+window.addEventListener('resize', function(event) {
+  const h = document.querySelector(".top-menu-container").getBoundingClientRect().height;
+
+  document.querySelector(".song-list-container").style.top = h + "px";
+}, true);
+
+
 // "current selected button"
 let currentLI = 0;
 // Set up a key event handler for the document
@@ -26,7 +37,7 @@ document.addEventListener("keydown", function(event){
 
       break;
     case "ArrowDown": // Down arrow
-      
+
       currentLI = currentLI < listItems.length-1 ? ++currentLI : listItems.length-1; // Increase counter 
       listItems[currentLI].focus();
 
@@ -49,7 +60,7 @@ function drawVerse(verse) {
   }
 
   contentStr += verse.lines[i];
-  
+
   verseButton.innerHTML = contentStr;
 
   // gives each button an index
@@ -57,7 +68,7 @@ function drawVerse(verse) {
   verseButton.globalIndex = globalButtonCounter++;
 
   verseButton.addEventListener("click", () => {
-    
+
     console.log("hi");
     window.mainAPI.sendDisplayText(contentStr);
 
@@ -77,16 +88,16 @@ function drawVerse(verse) {
   verseLi.appendChild(verseButton);
 
   verseList.appendChild(verseLi);
- 
+
 }
 
 function drawSection(section) {
   const sectionHeading = document.createElement("li");
   sectionHeading.classList.add("section-heading");
   sectionHeading.innerText = section.name;
-  
+
   verseList.appendChild(sectionHeading);
-  
+
   for (let i of section.verses) {
     drawVerse(i);
   }
@@ -117,7 +128,7 @@ function drawSong(song) {
 
 
 function swapElements(array, index1, index2) {
-    [array[index1], array[index2]] = [array[index2], array[index1]];
+  [array[index1], array[index2]] = [array[index2], array[index1]];
 }
 
 function drawSongButton(song, index) {
@@ -139,7 +150,7 @@ function drawSongButton(song, index) {
   thisLi.appendChild(thisButton);
 
   songList.appendChild(thisLi);
-  
+
 }
 
 function drawImageButton(image, index) {
@@ -163,7 +174,7 @@ function drawImageButton(image, index) {
   }
 
   // hides anything before the !-H command
-    if (thisButton.innerText.includes("!-H")) {
+  if (thisButton.innerText.includes("!-H")) {
     thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H')+3).trim();
   }
 
@@ -187,7 +198,7 @@ function drawImageButton(image, index) {
   thisLi.appendChild(thisButton);
 
   songList.appendChild(thisLi);
-  
+
 }
 
 

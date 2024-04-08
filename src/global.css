@@ -37,6 +37,7 @@ body {
   position: sticky;
   top: 0;
   background: var(--c4);
+  padding-top: 7px;
 }
  
 menu {
@@ -170,6 +171,9 @@ ul {
   overflow-y: hidden;
   background-color: var(--c4);
   
+  position: sticky;
+  top: 0;
+  /* we need to get the height of menu container and set top: to that. */
 }
 
 .song-list {
