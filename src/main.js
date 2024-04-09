@@ -30,38 +30,6 @@ window.addEventListener('resize', function(event) {
 let currentVerseLI = 0;
 let currentSongLI = 0;
 
-// Set up a key event handler for the document
-document.addEventListener("keydown", function(event){
-  // Check for up/down key presses
-  switch(event.key){
-    case "ArrowUp": // Up arrow    
-
-      currentVerseLI = currentVerseLI > 0 ? --currentVerseLI : 0;     // Decrease the counter      
-      verseButtons[currentVerseLI].focus();
-
-      break;
-    case "ArrowDown": // Down arrow
-
-      currentVerseLI = currentVerseLI < verseButtons.length-1 ? ++currentVerseLI : verseButtons.length-1; // Increase counter 
-      verseButtons[currentVerseLI].focus();
-
-      break;
-    case "W":
-    case "w":
-
-      currentSongLI = currentSongLI > 0 ? --currentSongLI : 0;     // Decrease the counter      
-      songButtons[currentSongLI].focus();
-
-      break;    
-    case "S":
-    case "s":
-
-      currentSongLI = currentSongLI < songButtons.length-1 ? ++currentSongLI : songButtons.length-1; // Increase counter 
-      songButtons[currentSongLI].focus();
-
-      break;
-  }
-});
 
 
 function drawVerse(verse) {
@@ -387,3 +355,43 @@ const clearDisplayButton = document.querySelector("#clear-display");
 clearDisplayButton.addEventListener("click", () => {
   window.mainAPI.sendClearDisplay();
 })
+
+// Moved here to be able to call all functions
+// Set up a key event handler for the document
+document.addEventListener("keydown", function(event){
+  // Check for up/down key presses
+  switch(event.key){
+    case "ArrowUp": // Up arrow    
+      currentVerseLI = currentVerseLI > 0 ? --currentVerseLI : 0;     // Decrease the counter      
+      verseButtons[currentVerseLI].focus();
+      break;
+
+    case "ArrowDown": // Down arrow
+      currentVerseLI = currentVerseLI < verseButtons.length-1 ? ++currentVerseLI : verseButtons.length-1; // Increase counter 
+      verseButtons[currentVerseLI].focus();
+      break;
+
+    case "W":
+    case "w":
+      currentSongLI = currentSongLI > 0 ? --currentSongLI : 0;     // Decrease the counter      
+      songButtons[currentSongLI].focus();
+      break;    
+
+    case "S":
+    case "s":
+      currentSongLI = currentSongLI < songButtons.length-1 ? ++currentSongLI : songButtons.length-1; // Increase counter 
+      songButtons[currentSongLI].focus();
+      break;
+
+    case "L":
+    case "l":
+      logoButton.click();
+      break;
+
+    case "B":
+    case "b":
+      blackButton.click();
+      break;
+  }
+});
+
