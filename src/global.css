@@ -62,10 +62,10 @@ body::-webkit-scrollbar-track {
   --oc: rgba(255,255,255, var(--logoShadowA));
   height: 100px;
   filter: drop-shadow(1px 1px 0 var(--oc)) 
-          drop-shadow(1px -1px 0 var(--oc)) 
-          drop-shadow(-1px 1px 0 var(--oc))
-          drop-shadow(-1px -1px 0 var(--oc))
-          drop-shadow(0 0 6px rgba(var(--shadowNums)));
+    drop-shadow(1px -1px 0 var(--oc)) 
+    drop-shadow(-1px 1px 0 var(--oc))
+    drop-shadow(-1px -1px 0 var(--oc))
+    drop-shadow(0 0 6px rgba(var(--shadowNums)));
   padding-bottom: 8px;
 }
 
@@ -320,7 +320,53 @@ ul {
   width: 30px;
 }
 
+.console {
+  display: none;
+  z-index: 100;
+  width: 90vw;
+  height: 90vh;
+  /* display: hidden; */
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(var(--c3Vals), 1);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--c4);
+  border-radius: var(--br);
+  overflow: hidden;
+}
 
+.console-font {
+  font-family: 'Lucida Console', monospace;
+  font-size: 11pt;
+}
+
+.console-title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: var(--c3);
+  z-index: 110;
+}
+
+.console-content {
+  width: 100%;
+  padding: 10px;
+  position: absolute; 
+  bottom: 0;
+  left: 0;
+  overflow-wrap: break-word;
+}
 
 @media (max-width:400px) {
   .main-container {

@@ -126,6 +126,14 @@ function sendToAllWindows(channel, data) {
   }
 }
 
+/**
+ * Console log 2 
+ * Sends data to main window's console 
+ * @param data Data to send
+ */
+function CL2(data) {
+  globalWindowList[0].webContents.send("CL2", data);
+}
 
 // gets what text to display from the main window and sends it to every window
 ipcMain.on("display-text-to-main", (event, data) => {
@@ -162,11 +170,13 @@ function readSong(path) {
 
   // if no error, sends it to the main window
   if (readOutput.error == "none") {
+    CL2("Read song: " + readOutput.song.data.title);
     const stringifiedSong = JSON.stringify({song: readOutput.song, "path": path});
     globalWindowList[0].webContents.send("add-song-to-main", stringifiedSong);
     // if error, prints the error dialog
   } else {
     printError(readOutput.error);
+    CL2("Error reading song file " + path + ": " + "<BR>" + "&nbsp &nbsp &nbsp &nbsp &nbsp" + readOutput.error);
   }
 }
 
@@ -194,6 +204,7 @@ ipcMain.on("read-song", (event, data) => {
  */
 function readImage(path) {
   globalWindowList[0].webContents.send("add-image-to-main", path);
+  CL2("Opened image: " + path);
 }
 
 // opens an image and ends the address to the main display window
@@ -227,8 +238,11 @@ function getExtension(path) {
 // files with image terminations
 ipcMain.on("read-dir", (event, data) => {
 
+  skippedFilsList = [];
+
   dialog.showOpenDialog({properties: ['openDirectory'] }).then(function (response) {
     if (!response.canceled) {
+      CL2("Reading folder: " + response.filePaths[0])
       let filenames = fs.readdirSync(response.filePaths[0]);
       for (let filename of filenames) {
         let path = response.filePaths[0] + "\\" + filename;
@@ -237,12 +251,21 @@ ipcMain.on("read-dir", (event, data) => {
 
         if ((ext == "txt") || (ext == "mss")) {
           readSong(path);
-        }
-
-        if ((ext == "jpeg") || (ext == "jpg") || (ext == "gif") || (ext == "png")) {
+        } else if ((ext == "jpeg") || (ext == "jpg") || (ext == "gif") || (ext == "png")) {
           readImage(path);
         }
+        else {
+          skippedFilsList.push(filename);
+        }
       }
+
+      CL2("Skipped Files:");
+      if (skippedFilsList) {
+        for (let fln of skippedFilsList) {
+          CL2(fln);
+        }
+      }
+      CL2("&nbsp");
       // does nothing if the user didnt select a file
     } else {
       console.log("no file selected");

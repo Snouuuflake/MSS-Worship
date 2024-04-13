@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
   onSongTest: (callback) => ipcRenderer.on('song-test', (_event, value) => callback(value)), 
   onSongAdded: (callback) => ipcRenderer.on("add-song-to-main", (_event, value) => callback(value)),
   onImageAdded: (callback) => ipcRenderer.on("add-image-to-main", (_event,value) => callback(value)),
+  onCL2: (callback) => ipcRenderer.on("CL2", (_event, value) => callback(value)),
 
   sendReadSong: () => ipcRenderer.send("read-song", "a message"),
   sendReadImage: () => ipcRenderer.send("read-image", "a message"),

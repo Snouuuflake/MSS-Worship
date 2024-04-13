@@ -11,6 +11,10 @@ const verseList = document.querySelector(".verse-list");
 let verseButtons = document.querySelectorAll(".verse-button");
 let songButtons = document.querySelectorAll(".song-button");
 
+const console = document.querySelector(".console");
+const consoleContent = document.querySelector(".console-content");
+
+
 // css root
 const r = document.querySelector(":root");
 
@@ -55,7 +59,7 @@ function drawVerse(verse) {
 
   verseButton.addEventListener("click", () => {
 
-    console.log("hi");
+    // console.log("hi");
     window.mainAPI.sendDisplayText(contentStr);
 
     // for arrow keys to sync right
@@ -100,7 +104,7 @@ function drawSong(song) {
   globalButtonCounter = 0;
 
   for (let sectionName of song.sectionOrder) {
-    console.log(song.sections.find( (s) => s.name == sectionName));
+    // console.log(song.sections.find( (s) => s.name == sectionName));
 
     drawSection(song.sections.find( (s) => s.name == sectionName));
 
@@ -250,7 +254,7 @@ readDirButton.addEventListener("click", () => {
 
 const saveDirButton = document.querySelector("#save-dir");
 saveDirButton.addEventListener("click", () => {
-  console.log("sending saveDir: ", renderSongList.map(a => a.path))
+  // console.log("sending saveDir: ", renderSongList.map(a => a.path))
   window.mainAPI.sendSaveDir(JSON.stringify(renderSongList.map(a => a.path)));
 });
 
@@ -297,7 +301,7 @@ blackButton.addEventListener("click", () => {
 window.mainAPI.onSongAdded((value) => {
   const parsedJson = JSON.parse(value);
   const parsedSong = parsedJson.song;
-  console.log("parsedJson.path: ", parsedJson.path);
+  // console.log("parsedJson.path: ", parsedJson.path);
   parsedSong.type = "song";
   parsedSong.path = parsedJson.path; // this is dumb but it works and is somehow clearer to me..
   renderSongList.push(parsedSong);
@@ -356,6 +360,18 @@ clearDisplayButton.addEventListener("click", () => {
   window.mainAPI.sendClearDisplay();
 })
 
+function toggleConsole() {
+  if (console.style.display == "block") {
+    console.style.display = "none";
+  } else {
+    console.style.display = "block";
+  }
+}
+
+window.mainAPI.onCL2((value) => {
+  consoleContent.innerHTML += ("<BR>" + value);
+});
+
 // Moved here to be able to call all functions
 // Set up a key event handler for the document
 document.addEventListener("keydown", function(event){
@@ -392,6 +408,10 @@ document.addEventListener("keydown", function(event){
     case "b":
       blackButton.click();
       break;
+
+    case "C":
+    case "c":
+      toggleConsole();
   }
 });
 
