@@ -4,7 +4,7 @@ An open-source Electron app for displaying song lyrics, images, and more, design
 To learn how to write lyrics in MSS format with any plain text editor, or how to style lyrics / change the logo image, check out this repository's wiki.
 
 ### Warning:
-Windows currently recognizes the installer as an "unsafe" and will trigger a warning pop-up. However, since the program is open-source and the installer does not compress the code into an asar file, it's easy to see that the program is in now way malicious. This will be fixed in a future update.
+Windows currently recognizes the installer as an "unsafe" and will trigger a warning pop-up. However, since the program is open-source and the installer does not compress the code into an asar file, it's easy to see that the program is in no way malicious. This will be fixed in a future update.
 
 ![Screenshot of MSS Worship's main gui](./thumbnail_1.png)
 
