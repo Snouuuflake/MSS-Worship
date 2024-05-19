@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.mainGrid {
+  display: grid;
+  column-gap: 23px;
+  width: auto;
+}
+
+.bigInput {
+  margin: 0;
+  padding: 0;
+  grid-column-start: 1;
+  grid-column-start: 2;
+  background-color: rgba(var(--c3Vals), 0.8);
+  color: white;
+}
+
+.sectionButtonContainer {
+  margin: 0;
+  padding: 0;
+  grid-column-start: 2;
+  grid-column-start: 3;
+  width: fit-content;
+}
+
+.sectionMenuContainer {
+  margin: 0;
+  padding: 0;
+  width: auto;
+}
+
+.promptBox {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  /**/
+  background-color: pink;
+  /**/
+}
+
+.promptHeading {
+  font-size: 20px;
+  width: 100%;
+  padding: 15px 20px;
+}

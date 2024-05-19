@@ -1,5 +1,5 @@
 // Important global functions and classes and stuff 
-
+   
 class Verse {
   constructor() {
     this.lines = [];

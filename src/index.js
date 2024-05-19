@@ -34,7 +34,7 @@ function printError(code) {
 
 
 /* Removes user access to shortcuts for refresing the page */
-app.on('browser-window-focus', function () {
+app.on('browser-window-focus', function() {
   globalShortcut.register("CommandOrControl+R", () => {
     console.log("CommandOrControl+R is pressed: Shortcut Disabled");
   });
@@ -42,7 +42,7 @@ app.on('browser-window-focus', function () {
     console.log("F5 is pressed: Shortcut Disabled");
   });
 });
-app.on('browser-window-blur', function () {
+app.on('browser-window-blur', function() {
   globalShortcut.unregister('CommandOrControl+R');
   globalShortcut.unregister('F5');
 });
@@ -60,7 +60,7 @@ app.on('browser-window-blur', function () {
   */
 const createDisplayWindow = (windowNumber) => {
 
-  const thisWindow = new BrowserWindow( {
+  const thisWindow = new BrowserWindow({
     autoHideMenuBar: true,
     width: 800,
     height: 600,
@@ -89,7 +89,7 @@ const createDisplayWindow = (windowNumber) => {
 
 
 /**
-  * Creating the window with the main gui
+  * @fn Creating the window with the main gui
   * Returns nothing but pushes the window object to the globalWindowList
   */
 const createMainWindow = () => {
@@ -125,6 +125,33 @@ function sendToAllWindows(channel, data) {
     }
   }
 }
+
+const createEditorWindow = () => {
+  // Create the browser window.
+  const editorWindow = new BrowserWindow({
+    autoHideMenuBar: true,
+    width: 600,
+    height: 600,
+    minWidth: 600,
+    minHeight: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true
+    },
+  });
+
+  editorWindow.loadFile(path.join(__dirname, 'editor.html'));
+  // adds the window to the global list of windows
+
+  // NOTE: gonna try to not make this interact with other windows
+  // globalWindowList.push(editorWindow);
+
+  // like a handshake between the main process and the window
+  editorWindow.once("ready-to-show", () => {
+    editorWindow.webContents.send("ready-from-main", "ready!!!!!!!");
+  });
+
+};
 
 /**
  * Console log 2 
@@ -171,7 +198,7 @@ function readSong(path) {
   // if no error, sends it to the main window
   if (readOutput.error == "none") {
     CL2("Read song: " + readOutput.song.data.title);
-    const stringifiedSong = JSON.stringify({song: readOutput.song, "path": path});
+    const stringifiedSong = JSON.stringify({ song: readOutput.song, "path": path });
     globalWindowList[0].webContents.send("add-song-to-main", stringifiedSong);
     // if error, prints the error dialog
   } else {
@@ -183,7 +210,7 @@ function readSong(path) {
 // opens a song file and sends it to the main window
 ipcMain.on("read-song", (event, data) => {
   // opens native file dialog
-  dialog.showOpenDialog({properties: ['openFile'] }).then(function (response) {
+  dialog.showOpenDialog({ properties: ['openFile'] }).then(function(response) {
     // if the user finished loading a file
     if (!response.canceled) {
 
@@ -211,7 +238,7 @@ function readImage(path) {
 ipcMain.on("read-image", (event, data) => {
 
   // opens native file dialog
-  dialog.showOpenDialog({properties: ['openFile'] }).then(function (response) {
+  dialog.showOpenDialog({ properties: ['openFile'] }).then(function(response) {
     // if the user finished loading a file
     if (!response.canceled) {
       console.log(response.filePaths[0]);
@@ -229,7 +256,7 @@ ipcMain.on("read-image", (event, data) => {
  * @return the extension of a file from its path
  */
 function getExtension(path) {
-  return path.substring(path.lastIndexOf('.')+1, path.length) || path;
+  return path.substring(path.lastIndexOf('.') + 1, path.length) || path;
 }
 
 
@@ -240,7 +267,7 @@ ipcMain.on("read-dir", (event, data) => {
 
   skippedFilsList = [];
 
-  dialog.showOpenDialog({properties: ['openDirectory'] }).then(function (response) {
+  dialog.showOpenDialog({ properties: ['openDirectory'] }).then(function(response) {
     if (!response.canceled) {
       CL2("Reading folder: " + response.filePaths[0])
       let filenames = fs.readdirSync(response.filePaths[0]);
@@ -281,16 +308,16 @@ function spawnCP(inputPath, outputPath) {
   console.log("copying ", inputPath, "   ", outputPath);
   // FIXME: copy is a windows command.
   // const child = execute("copy" + " " + "\"" + inputPath + "\"" + " " + "\"" + outputPath + "\"");
-  const child = spawn('copy', [`"${inputPath}"`, `"${outputPath}"`], {shell: true});
+  const child = spawn('copy', [`"${inputPath}"`, `"${outputPath}"`], { shell: true });
   // child.on('exit', function (code, signal) {
   //   console.log(`child process (cp ${inputPath} ${outputPath} exited with ` + `code ${code} and signal ${signal}`);
   // });
 
-  child.on('error', err => ( console.log(err) ));
+  child.on('error', err => (console.log(err)));
   child.stdout.on('data', (data) => {
     //Here is the output
-    data=data.toString();   
-    console.log(data);      
+    data = data.toString();
+    console.log(data);
   });
 
   // console.log("env!!!!!! ", process.env.PATH );
@@ -308,7 +335,7 @@ ipcMain.on("save-dir", (event, data) => {
   // the we're gonna recieve that list, in order, and run mv command while adding ###!-H prefix to the files.
   pathArray = JSON.parse(data);
 
-  dialog.showOpenDialog({properties: ['openDirectory'] }).then(function (response) {
+  dialog.showOpenDialog({ properties: ['openDirectory'] }).then(function(response) {
     if (!response.canceled) {
 
       let outputPath = response.filePaths[0];
@@ -319,22 +346,22 @@ ipcMain.on("save-dir", (event, data) => {
           let filename = path;
 
           if (filename.includes("\\")) {
-            filename = filename.substring(filename.lastIndexOf('\\')+1);
+            filename = filename.substring(filename.lastIndexOf('\\') + 1);
           }
 
           if (filename.includes("/")) {
-            filename = filename.substring(filename.lastIndexOf('/')+1);
+            filename = filename.substring(filename.lastIndexOf('/') + 1);
           }
 
           // hides anything before the !-H command
           if (filename.includes("!-H")) {
-            filename = filename.substring(filename.lastIndexOf('!-H')+3).trim();
+            filename = filename.substring(filename.lastIndexOf('!-H') + 3).trim();
           }
 
           // if (filename.includes(":")) {
           //   filename = filename.substring(filename.lastIndexOf(':')+1);
           // }
-          spawnCP(path, outputPath + "\\" + get0s(i)  + i.toString() + "!-H" + filename);
+          spawnCP(path, outputPath + "\\" + get0s(i) + i.toString() + "!-H" + filename);
         }
         i++;
       }
@@ -353,7 +380,9 @@ ipcMain.on("save-dir", (event, data) => {
 // 
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  createMainWindow();
+  // FIXME: going to just work on text editor ig
+  // createMainWindow();
+  createEditorWindow();
 
   console.log(BrowserWindow.getAllWindows());
 });
@@ -373,6 +402,7 @@ app.on('window-all-closed', () => {
 });
 */
 
+// WARN: i dont understand what this means.
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
