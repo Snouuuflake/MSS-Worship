@@ -130,10 +130,10 @@ const createEditorWindow = () => {
   // Create the browser window.
   const editorWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    width: 600,
-    height: 600,
-    minWidth: 600,
-    minHeight: 600,
+    width: 700,
+    height: 700,
+    minWidth: 700,
+    minHeight: 700,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true

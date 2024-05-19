@@ -1,6 +1,23 @@
+:root {
+  --shadowPower: 0.6;
+}
+
 * {
   margin: 0;
   padding: 0;
+}
+
+textarea, input {
+  outline: none;
+  border: none;
+  resize: none;
+}
+
+textarea:focus, input:focus {
+  outline: none;
+}
+
+button {
 }
 
 .mainGrid {
@@ -10,15 +27,51 @@
 }
 
 .bigInput {
-  margin: 0;
-  padding: 0;
   grid-column-start: 1;
   grid-column-start: 2;
+  /**/
+  margin: 0;
+  padding: 13px;
+  height: 465px;
+  width: 400px;
+  overflow-y: scroll;
+  border-color: rgba(200,200,200,0);
+  border-width: 6px;
+  border-style: solid;
+  /**/
   background-color: rgba(var(--c3Vals), 0.8);
-  color: white;
+  color: var(--tc);
+  box-shadow: 10px 10px 45px 4px rgba(0,0,0,var(--shadowPower));
+  /**/
+  border-radius: var(--br);
+  /**/
+  font-size: 16px;
 }
 
-.sectionButtonContainer {
+.bigInput::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 7px;
+  background: rgba(0,0,0,0);
+}
+.bigInput::-webkit-scrollbar-corner {
+  background: rgba(0,0,0,0);
+}
+.bigInput::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--scrollBg) 80%, var(--scrollMix));
+  border-radius: 6px;
+  border: none;
+  background-clip: content-box;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.bigInput::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0);
+  border-radius: 7px;
+  margin-right: 7px;
+}
+
+.rightContainer {
   margin: 0;
   padding: 0;
   grid-column-start: 2;
@@ -30,6 +83,72 @@
   margin: 0;
   padding: 0;
   width: auto;
+}
+
+.editorButton {
+  border: none;
+  outline: none;
+  background-color: rgba(var(--c3Vals), 0.8);
+  color: var(--tc);
+  box-shadow: 10px 10px 25px 4px rgba(0,0,0,var(--shadowPower));
+/**/
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 9px;
+  border-radius: var(--br);
+}
+
+#addSection {
+  background-color: var(--hi);
+}
+
+#addSection:hover {
+  color: color-mix(in srgb, var(--hi) 40%, var(--tc));
+}
+
+#addSection:active {
+  color: var(--hi);
+}
+
+.sectionButtonContainer {
+  margin-top: 30px;
+}
+
+.sectionButtonBox {
+  border: none;
+  outline: none;
+  background-color: rgba(var(--c3Vals), 0.8);
+  color: var(--tc);
+  box-shadow: 10px 10px 25px 4px rgba(0,0,0,var(--shadowPower));
+  /**/
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 9px;
+  border-radius: var(--br);
+}
+
+.sectionNameSpan {
+  margin-right: 5px;
+}
+
+.sectionSubButton {
+  background: none;
+  /* outline: none; */
+  border: none;
+  margin: 0 2px;
+  padding: 4px 0;
+  width: 23px;
+  height: 23px;
+  text-align: center;
+  border-radius: 7px;
+}
+
+.sectionSubButton:hover {
+  background-color: rgba(var(--hiVals), 0.5);
+}
+
+.sectionSubButton:active {
+  background-color: rgba(var(--hiVals), 1);
 }
 
 .promptBox {
@@ -45,7 +164,10 @@
   top: 0;
   bottom: 0;
   /**/
-  background-color: pink;
+  border-radius: var(--br);
+  background-color: var(--c4);
+  color: var(--tc);
+  box-shadow: 10px 10px 45px 4px rgba(0,0,0,var(--shadowPower));
   /**/
 }
 
