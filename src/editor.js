@@ -1,6 +1,7 @@
 const bigInput = document.getElementById("bigInput");
-const addSectionButton = document.getElementById("addSection");
 const sectionButtonContainer = document.getElementById("sectionButtonContainer");
+const addSectionButton = document.getElementById("addSection");
+const writeSongButton = document.getElementById("writeSong");
 
 const lSong = window.mss.BasicSong();
 // BasicSong doesnt have verses / lines; just a block of text.
@@ -15,13 +16,43 @@ window.Parser.debugPrintSong(lSong);
 bigInput.disabled = true;
 // ---------------------------------------------
 
-bigInput.addEventListener("input", (event) => {
-  console.log(bigInput.value);
-  // RMBSCL
-  if (currentSection != null) {
-    currentSection.text = bigInput.value;
+/**
+ * Looks for and returns index of element in sections
+ * with sectionName. If not found, returns -1.
+ */
+function getSectionIndex(sectionName) {
+  for (let i = 0; i < lSong.sections.length; i++) {
+    if (lSong.sections[i].name == sectionName) {
+      return i;
+    }
   }
-});
+  return -1;
+}
+
+function songToString() {
+  // screw it we're using for loops
+  // convenient array methods are for the weak.
+  let resString = "";
+
+  // bool for if each index of lSong .sections has been defined in resString
+  const writtenArr = [];
+  for (let i = 0; i < lSong.sections.length; i++) {
+    writtenArr[i] = false; // is this bad practice?
+  }
+
+  for (let sname of lSong.sectionOrder) {
+    let indexToWrite = getSectionIndex(sname);
+    if (writtenArr[indexToWrite] == true) {
+      resString += ("!-R " + sname + "\n\n");
+    } else {
+      writtenArr[indexToWrite] = true;
+      resString += ("!-S " + sname + "\n");
+      resString += lSong.sections[indexToWrite].text;
+      resString += "\n\n";
+    }
+  }
+  return resString;
+}
 
 /**
  * Swaps two array indexes
@@ -34,11 +65,12 @@ function updateBigInput() {
   // TODO:!!!!!! update BigInput
 
   // RMBSCL
-  bigInput.value = currentSection.text;
 
   if (currentSection == null) {
     bigInput.disabled = true;
+    bigInput.value = "";
   } else {
+    bigInput.value = currentSection.text;
     bigInput.disabled = false;
   }
 }
@@ -95,6 +127,8 @@ function drawSectionButton(name, index) {
 
   dupeButton.addEventListener("click", () => {
     lSong.sectionOrder.push(name);
+    currentSection = lSong.sections.find((s) => { return s.name == name });
+    updateBigInput();
     drawSectionArr();
   });
 
@@ -214,6 +248,15 @@ async function prompt2(heading, filler) {
   });
 }
 
+
+bigInput.addEventListener("input", (event) => {
+  console.log(bigInput.value);
+  // RMBSCL
+  if (currentSection != null) {
+    currentSection.text = bigInput.value;
+  }
+});
+
 /**
   * Add uhh
   * uhh
@@ -229,8 +272,15 @@ addSectionButton.addEventListener("click", (event) => {
     } else {
       console.log("New section name: " + result);
       pushSection(result);
+      currentSection = lSong.sections[lSong.sections.length - 1];
+      updateBigInput();
+
     }
   });
 
 });
 
+writeSongButton.addEventListener("click", (event) => {
+  console.log("songToString():");
+  console.log(songToString());
+})

@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="global.css" />
-    <link rel="stylesheet" href="editor.css" />
-    <script src="editor.js" defer></script>
-    <title>MSS Song Editor</title>
-  </head>
-  <body>
-    <h2>Sections:</h2>
-    <div class="mainGrid">
-      <textarea id="bigInput" name="bigInput" class="bigInput" placeholder="lyrics go here.."></textarea>
 
-      <div class="rightContainer">
-        <div class="sectionMenuContainer">
-          <button type="button" id="addSection" class="editorButton">Add Section</button>
-        </div>
-        <div class="sectionButtonContainer" id="sectionButtonContainer">
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="global.css" />
+  <link rel="stylesheet" href="editor.css" />
+  <script src="editor.js" defer></script>
+  <title>MSS Song Editor</title>
+</head>
+
+<body>
+  <h2>Sections:</h2>
+  <div class="mainGrid">
+    <textarea id="bigInput" name="bigInput" class="bigInput" placeholder="lyrics go here.."></textarea>
+
+    <div class="rightContainer">
+      <div class="sectionMenuContainer">
+        <button type="button" id="addSection" class="editorButton">Add Section</button>
+        <button type="button" id="writeSong" class="editorButton">Write Song (c.l)</button>
+      </div>
+      <div class="sectionButtonContainer" id="sectionButtonContainer">
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
