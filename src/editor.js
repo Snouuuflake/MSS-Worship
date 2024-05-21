@@ -16,6 +16,100 @@ window.Parser.debugPrintSong(lSong);
 bigInput.disabled = true;
 // ---------------------------------------------
 
+
+async function confirm(heading) {
+  const promptBox = document.createElement("div");
+  promptBox.classList.add("promptBox");
+
+  const promptHeading = document.createElement("h1");
+  promptHeading.classList.add("promptHeading");
+  promptHeading.innerHTML = heading;
+
+  const promptButtonContainer = document.createElement("div");
+  promptButtonContainer.classList.add("promptButtonContainer");
+
+  const yesButton = document.createElement("button");
+  yesButton.classList.add("promptButton");
+  yesButton.innerText = "Yes";
+
+  const noButton = document.createElement("button");
+  noButton.classList.add("promptButton");
+  noButton.innerText = "No";
+
+  promptBox.appendChild(promptHeading);
+  promptButtonContainer.appendChild(yesButton);
+  promptButtonContainer.appendChild(noButton);
+  promptBox.appendChild(promptButtonContainer);
+
+  document.body.appendChild(promptBox);
+
+  return new Promise((resolve) => {
+    yesButton.addEventListener("click", (event) => {
+      promptBox.remove();
+      resolve(true);
+    });
+    noButton.addEventListener("click", (event) => {
+      promptBox.remove();
+      resolve(false);
+    });
+  });
+}
+
+/**
+ * My async and bad version of the prompt method
+ *
+ * @param heading Prompt text
+ * @param filler Default value for input box
+ *
+ * @return null if exited or input box contents
+ */
+async function prompt2(heading, filler) {
+  const promptBox = document.createElement("div");
+  promptBox.classList.add("promptBox");
+
+  const promptHeading = document.createElement("h1");
+  promptHeading.classList.add("promptHeading");
+  promptHeading.innerHTML = heading;
+
+  const promptInput = document.createElement("input");
+  promptInput.type = "text";
+  promptInput.classList.add("promptInput");
+  // promptInput.id = "promptInput";
+
+  const promptButtonContainer = document.createElement("div");
+  promptButtonContainer.classList.add("promptButtonContainer");
+
+  const exitButton = document.createElement("button");
+  exitButton.classList.add("promptButton");
+  exitButton.innerText = "Exit";
+
+
+  const submitButton = document.createElement("button");
+  submitButton.classList.add("promptButton");
+  submitButton.innerText = "Ok";
+
+  promptBox.appendChild(promptHeading);
+  promptBox.appendChild(promptInput);
+  promptButtonContainer.appendChild(exitButton);
+  promptButtonContainer.appendChild(submitButton);
+  promptBox.appendChild(promptButtonContainer);
+
+  document.body.appendChild(promptBox);
+
+  return new Promise((resolve) => {
+    exitButton.addEventListener("click", (event) => {
+      promptBox.remove();
+      resolve(null);
+    });
+    submitButton.addEventListener("click", (event) => {
+      let res = promptInput.value.trim(); // NOTE: we trim the input.
+      promptBox.remove();
+      resolve(res);
+    });
+  });
+}
+
+
 /**
  * Looks for and returns index of element in sections
  * with sectionName. If not found, returns -1.
@@ -29,6 +123,11 @@ function getSectionIndex(sectionName) {
   return -1;
 }
 
+// TODO:
+// TODO:
+// TODO: missing title & author
+// TODO:
+// TODO:
 function songToString() {
   // screw it we're using for loops
   // convenient array methods are for the weak.
@@ -198,55 +297,6 @@ function pushSection(name) {
   drawSectionArr();
 }
 
-/**
- * My async and bad version of the prompt method
- *
- * @param heading Prompt text
- * @param filler Default value for input box
- *
- * @return null if exited or input box contents
- */
-async function prompt2(heading, filler) {
-  const promptBox = document.createElement("div");
-  promptBox.classList.add("promptBox");
-
-  const promptHeading = document.createElement("h1");
-  promptHeading.classList.add("promptHeading");
-  promptHeading.innerHTML = heading;
-
-  const promptInput = document.createElement("input");
-  promptInput.type = "text";
-  promptInput.classList.add("promptInput");
-  // promptInput.id = "promptInput";
-
-  const exitButton = document.createElement("button");
-  exitButton.classList.add("promptButton");
-  exitButton.innerText = "Exit";
-
-
-  const submitButton = document.createElement("button");
-  submitButton.classList.add("promptButton");
-  submitButton.innerText = "Ok";
-
-  promptBox.appendChild(promptHeading);
-  promptBox.appendChild(promptInput);
-  promptBox.appendChild(exitButton);
-  promptBox.appendChild(submitButton);
-
-  document.body.appendChild(promptBox);
-
-  return new Promise((resolve) => {
-    exitButton.addEventListener("click", (event) => {
-      promptBox.remove();
-      resolve(null);
-    });
-    submitButton.addEventListener("click", (event) => {
-      let res = promptInput.value.trim(); // NOTE: we trim the input.
-      promptBox.remove();
-      resolve(res);
-    });
-  });
-}
 
 
 bigInput.addEventListener("input", (event) => {

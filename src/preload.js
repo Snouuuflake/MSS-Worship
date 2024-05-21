@@ -21,8 +21,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
   sendToLogo: (data) => ipcRenderer.send("logo-to-main", data),
   sendToBlack: (data) => ipcRenderer.send("black-to-main", data),
   sendClearDisplay: () => ipcRenderer.send("clear-display", "a message")
-}
-)
+})
 
 contextBridge.exposeInMainWorld("displayAPI", {
   onReadyFromMain: (callback) => ipcRenderer.on('ready-from-main', (_event, value) => callback(value)),
@@ -46,3 +45,6 @@ contextBridge.exposeInMainWorld("mss", {
   BasicSection: () => { return new MSS.BasicSection() },
 })
 
+contextBridge.exposeInMainWorld("editorAPI", {
+  sendSongString: (data) => ipcRenderer.send("song-string-to-main", data)
+})
