@@ -17,7 +17,7 @@ bigInput.disabled = true;
 // ---------------------------------------------
 
 
-async function confirm(heading) {
+async function confirm2(heading) {
   const promptBox = document.createElement("div");
   promptBox.classList.add("promptBox");
 
@@ -73,6 +73,7 @@ async function prompt2(heading, filler) {
 
   const promptInput = document.createElement("input");
   promptInput.type = "text";
+  promptInput.placeholder = filler;
   promptInput.classList.add("promptInput");
   // promptInput.id = "promptInput";
 
@@ -95,6 +96,8 @@ async function prompt2(heading, filler) {
   promptBox.appendChild(promptButtonContainer);
 
   document.body.appendChild(promptBox);
+
+  promptInput.focus();
 
   return new Promise((resolve) => {
     exitButton.addEventListener("click", (event) => {
@@ -200,21 +203,31 @@ function drawSectionButton(name, index) {
 
   delButton.addEventListener("click", () => {
     if (lSong.sectionOrder.filter((n) => { return n == name }).length == 1) {
-      // TODO: add confirmation buttons prompt for this case
-      lSong.sectionOrder = lSong.sectionOrder.filter((n) => { return n != name })
-      lSong.sections = lSong.sections.filter((s) => { return s.name != name })
 
-      if (lSong.sections.length == 0) {
-        currentSection = null;
-      } else {
-        for (let i = 0; i < lSong.sections.length && lSong.sections[i].name != name; i++) {
-          currentSection = lSong.sections[i];
+      // TODO: WHY DOES IT WAIT FOR A SECOND BUTTON PRRESS??
+      confirm2("Permanently delete section?").then((value) => {
+        if (value) {
+          lSong.sectionOrder = lSong.sectionOrder.filter((n) => { return n != name })
+          lSong.sections = lSong.sections.filter((s) => { return s.name != name })
+
+          if (lSong.sections.length == 0) {
+            currentSection = null;
+          } else {
+            for (let i = 0; i < lSong.sections.length && lSong.sections[i].name != name; i++) {
+              currentSection = lSong.sections[i];
+            }
+          }
         }
-      }
+        drawSectionArr();
+        updateBigInput();
+      })
 
     } else {
       lSong.sectionOrder.splice(index, 1);
+      drawSectionArr();
+      updateBigInput();
     }
+    // just in case
     drawSectionArr();
     updateBigInput();
   });
@@ -316,7 +329,7 @@ bigInput.addEventListener("input", (event) => {
 addSectionButton.addEventListener("click", (event) => {
   console.log("clicked!");
 
-  prompt2("hi!", "filler").then((result) => {
+  prompt2("Enter name of new section:", "name..").then((result) => {
     if (result == null || result == "" || lSong.sectionOrder.find((a) => { return a == result })) { // validates that a section with that name doesnt already exist
       console.log("No new section name!");
     } else {

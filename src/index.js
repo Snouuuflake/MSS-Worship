@@ -134,6 +134,7 @@ const createEditorWindow = () => {
     height: 700,
     minWidth: 800,
     minHeight: 700,
+    resizable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
