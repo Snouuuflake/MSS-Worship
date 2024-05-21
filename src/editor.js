@@ -16,6 +16,39 @@ window.Parser.debugPrintSong(lSong);
 bigInput.disabled = true;
 // ---------------------------------------------
 
+/**
+ * Resolve true when ok is pressed, idk what else to do
+ * Not like it really matters i think
+ */
+async function alert2(heading) {
+  const promptBox = document.createElement("div");
+  promptBox.classList.add("promptBox");
+
+  const promptHeading = document.createElement("h1");
+  promptHeading.classList.add("promptHeading");
+  promptHeading.innerHTML = heading;
+
+  const promptButtonContainer = document.createElement("div");
+  promptButtonContainer.classList.add("promptButtonContainer");
+
+  const okButton = document.createElement("button");
+  okButton.classList.add("promptButton");
+  okButton.innerText = "Ok";
+
+
+  promptBox.appendChild(promptHeading);
+  promptButtonContainer.appendChild(okButton);
+  promptBox.appendChild(promptButtonContainer);
+
+  document.body.appendChild(promptBox);
+
+  return new Promise((resolve) => {
+    okButton.addEventListener("click", (event) => {
+      promptBox.remove();
+      resolve(true);
+    });
+  });
+}
 
 async function confirm2(heading) {
   const promptBox = document.createElement("div");
@@ -126,12 +159,12 @@ function getSectionIndex(sectionName) {
   return -1;
 }
 
-// TODO:
-// TODO:
-// TODO: missing title & author
-// TODO:
-// TODO:
+// TODO: maybe document this lol
 function songToString() {
+  let title = null;
+  let author = null;
+
+  //
   // screw it we're using for loops
   // convenient array methods are for the weak.
   let resString = "";
@@ -153,7 +186,37 @@ function songToString() {
       resString += "\n\n";
     }
   }
-  return resString;
+
+
+  return new Promise((resolve) => {
+    if (resString.trim() == "") {
+      throw new Error("Song is empty!");
+    }
+
+    prompt2("Song title:", "").then((value) => {
+      if (value) {
+        title = value;
+      } else {
+        throw new Error("Song has no Title!");
+      }
+      return null; // because not defing result below stresses me
+    }).then((result) => {
+      prompt2("Song author:", "Author is optional..").then((value) => {
+        if (value) {
+          author = value;
+        } else {
+          author = "no author"
+        }
+      });
+      return null;
+    });
+
+
+    resString = ("!-T" + title + "\n\n") + ("!-A" + author + "\n\n") + resString;
+
+    resolve(resString);
+  });
+
 }
 
 /**
@@ -164,8 +227,6 @@ function swapElements(array, index1, index2) {
 }
 
 function updateBigInput() {
-  // TODO:!!!!!! update BigInput
-
   // RMBSCL
 
   if (currentSection == null) {
@@ -218,6 +279,7 @@ function drawSectionButton(name, index) {
             }
           }
         }
+        // TODO: maybe move these up?
         drawSectionArr();
         updateBigInput();
       })
@@ -228,8 +290,8 @@ function drawSectionButton(name, index) {
       updateBigInput();
     }
     // just in case
-    drawSectionArr();
-    updateBigInput();
+    // drawSectionArr();
+    // updateBigInput();
   });
 
   const dupeButton = document.createElement("button");
@@ -344,6 +406,12 @@ addSectionButton.addEventListener("click", (event) => {
 });
 
 writeSongButton.addEventListener("click", (event) => {
-  console.log("songToString():");
-  console.log(songToString());
+
+  songToString().then((value) => {
+    console.log("songToString():");
+    console.log(value);
+  }).catch((error) => {
+    console.log("Handled error: " + error.message);
+    alert2(error.message);
+  })
 })

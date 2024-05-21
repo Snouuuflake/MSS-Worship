@@ -13,18 +13,19 @@
 <body>
   <img src="editor-top_1.png" class="top">
   <div class="mainGrid">
-    <textarea id="bigInput" name="bigInput" class="bigInput" placeholder="lyrics go here.."></textarea>
-
+    <div class="leftContainer">
+      <div class="leftMenu" id="leftMenu">
+        <button type="button" id="writeSong" class="leftButton">Save Song (c.l)</button>
+      </div>
+      <textarea id="bigInput" name="bigInput" class="bigInput" placeholder="lyrics go here.."></textarea>
+    </div>
     <div class="rightContainer">
       <div class="sectionMenuContainer">
-        <button type="button" id="addSection" class="editorButton">Add Section</button>
+        <button type="button" id="addSection" class="rightButton">Add Section</button>
       </div>
       <div class="sectionButtonContainer" id="sectionButtonContainer">
       </div>
     </div>
-  </div>
-  <div class="bottomMenu" id="bottomMenu">
-    <button type="button" id="writeSong" class="editorButton">Save Song (c.l)</button>
   </div>
 </body>
 

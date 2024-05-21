@@ -30,10 +30,43 @@ input:focus {
   width: fit-content;
 }
 
-.bigInput {
+.leftContainer {
   grid-column-start: 1;
   grid-column-start: 2;
+}
+
+.leftMenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 13px;
+  margin-bottom: 30px;
+}
+
+.leftButton {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: rgba(var(--c3Vals), 0.8);
+  color: var(--tc);
+  box-shadow: 10px 10px 25px 4px rgba(0, 0, 0, var(--shadowPower));
   /**/
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 9px;
+  border-radius: var(--br);
+}
+
+.leftButton:hover {
+  background-color: var(--hi);
+}
+
+.leftButton:active {
+  background-color: var(--hi);
+  color: var(--hi);
+}
+
+.bigInput {
   margin: 0;
   padding: 13px;
   height: 465px;
@@ -89,9 +122,10 @@ input:focus {
   margin: 0;
   padding: 0;
   width: 100%;
+  margin-bottom: 30px;
 }
 
-.editorButton {
+.rightButton {
   width: 100%;
   border: none;
   outline: none;
@@ -118,7 +152,6 @@ input:focus {
 }
 
 .sectionButtonContainer {
-  margin-top: 30px;
   width: 100%;
 }
 
@@ -226,16 +259,16 @@ input:focus {
   box-sizing: border-box;
   padding: 0 9px;
   width: fit-content;
-  display: grid;
-  grid-template-columns: 100px 100px;
-  justify-self: center;
-  column-gap: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 15px;
 }
 
 .promptButton {
   border: none;
   outline: none;
-  width: 100%;
+  width: 110px;
   height: 25px;
   background-color: var(--c3);
   border-radius: var(--br);
