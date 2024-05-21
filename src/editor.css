@@ -7,23 +7,24 @@
   padding: 0;
 }
 
-textarea, input {
+textarea,
+input {
   outline: none;
   border: none;
   resize: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   outline: none;
 }
 
-button {
-}
+button {}
 
 .mainGrid {
   display: grid;
   column-gap: 23px;
-  width: auto;
+  width: fit-content;
 }
 
 .bigInput {
@@ -35,13 +36,13 @@ button {
   height: 465px;
   width: 400px;
   overflow-y: scroll;
-  border-color: rgba(200,200,200,0);
+  border-color: rgba(200, 200, 200, 0);
   border-width: 6px;
   border-style: solid;
   /**/
   background-color: rgba(var(--c3Vals), 0.8);
   color: var(--tc);
-  box-shadow: 10px 10px 45px 4px rgba(0,0,0,var(--shadowPower));
+  box-shadow: 10px 10px 45px 4px rgba(0, 0, 0, var(--shadowPower));
   /**/
   border-radius: var(--br);
   /**/
@@ -51,11 +52,13 @@ button {
 .bigInput::-webkit-scrollbar {
   width: 12px;
   border-radius: 7px;
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
 }
+
 .bigInput::-webkit-scrollbar-corner {
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
 }
+
 .bigInput::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--scrollBg) 80%, var(--scrollMix));
   border-radius: 6px;
@@ -66,7 +69,7 @@ button {
 }
 
 .bigInput::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
   border-radius: 7px;
   margin-right: 7px;
 }
@@ -76,22 +79,23 @@ button {
   padding: 0;
   grid-column-start: 2;
   grid-column-start: 3;
-  width: fit-content;
+  width: 280px;
 }
 
 .sectionMenuContainer {
   margin: 0;
   padding: 0;
-  width: auto;
+  width: 100%;
 }
 
 .editorButton {
+  width: 100%;
   border: none;
   outline: none;
   background-color: rgba(var(--c3Vals), 0.8);
   color: var(--tc);
-  box-shadow: 10px 10px 25px 4px rgba(0,0,0,var(--shadowPower));
-/**/
+  box-shadow: 10px 10px 25px 4px rgba(0, 0, 0, var(--shadowPower));
+  /**/
   font-weight: bold;
   font-size: 16px;
   padding: 6px 9px;
@@ -112,23 +116,43 @@ button {
 
 .sectionButtonContainer {
   margin-top: 30px;
+  width: 100%;
 }
 
 .sectionButtonBox {
+  box-sizing: border-box;
+  width: 100%;
   border: none;
   outline: none;
   background-color: rgba(var(--c3Vals), 0.8);
   color: var(--tc);
-  box-shadow: 10px 10px 25px 4px rgba(0,0,0,var(--shadowPower));
+  box-shadow: 10px 10px 25px 4px rgba(0, 0, 0, var(--shadowPower));
   /**/
   font-weight: bold;
   font-size: 16px;
   padding: 6px 9px;
+  margin-bottom: 9px;
   border-radius: var(--br);
 }
 
-.sectionNameSpan {
+.sectionNameButton {
   margin-right: 5px;
+  width: 142px;
+  text-align: left;
+  outline: none;
+  border: none;
+  background: none;
+  text-decoration: underline;
+  white-space: nowrap;
+  overflow: clip;
+}
+
+.sectionNameButton:hover {
+  color: rgba(var(--hiVals), 0.5);
+}
+
+.sectionNameButton:active {
+  color: rgba(var(--hiVals), 1);
 }
 
 .sectionSubButton {
@@ -167,7 +191,7 @@ button {
   border-radius: var(--br);
   background-color: var(--c4);
   color: var(--tc);
-  box-shadow: 10px 10px 45px 4px rgba(0,0,0,var(--shadowPower));
+  box-shadow: 10px 10px 45px 4px rgba(0, 0, 0, var(--shadowPower));
   /**/
 }
 

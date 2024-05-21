@@ -2,12 +2,25 @@ const bigInput = document.getElementById("bigInput");
 const addSectionButton = document.getElementById("addSection");
 const sectionButtonContainer = document.getElementById("sectionButtonContainer");
 
-const lSong = window.mss.Song();
+const lSong = window.mss.BasicSong();
+// BasicSong doesnt have verses / lines; just a block of text.
+// NOTE: this has to be changed for editing songs loaded in main window
+// changes need to be done at RMBSCL
+
+let currentSection = null;
 
 window.Parser.debugPrintSong(lSong);
 
+// --------- Section for one-time startup things
+bigInput.disabled = true;
+// ---------------------------------------------
+
 bigInput.addEventListener("input", (event) => {
   console.log(bigInput.value);
+  // RMBSCL
+  if (currentSection != null) {
+    currentSection.text = bigInput.value;
+  }
 });
 
 /**
@@ -17,18 +30,37 @@ function swapElements(array, index1, index2) {
   [array[index1], array[index2]] = [array[index2], array[index1]];
 }
 
+function updateBigInput() {
+  // TODO:!!!!!! update BigInput
+
+  // RMBSCL
+  bigInput.value = currentSection.text;
+
+  if (currentSection == null) {
+    bigInput.disabled = true;
+  } else {
+    bigInput.disabled = false;
+  }
+}
+
 /**
  * Draws a section button
  *
  * @param index Allows button's event listeners to know its index
  */
 function drawSectionButton(name, index) {
+
   const newBox = document.createElement("div");
   newBox.classList.add("sectionButtonBox");
 
-  const nameSpan = document.createElement("span");
-  nameSpan.innerText = name;
-  nameSpan.classList.add("sectionNameSpan");
+  const nameButton = document.createElement("button");
+  nameButton.innerText = name;
+  nameButton.classList.add("sectionNameButton");
+
+  nameButton.addEventListener("click", () => {
+    currentSection = lSong.sections.find((s) => { return s.name == name });
+    updateBigInput();
+  });
 
   const delButton = document.createElement("button");
   delButton.type = "button";
@@ -40,10 +72,20 @@ function drawSectionButton(name, index) {
       // TODO: add confirmation buttons prompt for this case
       lSong.sectionOrder = lSong.sectionOrder.filter((n) => { return n != name })
       lSong.sections = lSong.sections.filter((s) => { return s.name != name })
+
+      if (lSong.sections.length == 0) {
+        currentSection = null;
+      } else {
+        for (let i = 0; i < lSong.sections.length && lSong.sections[i].name != name; i++) {
+          currentSection = lSong.sections[i];
+        }
+      }
+
     } else {
       lSong.sectionOrder.splice(index, 1);
     }
     drawSectionArr();
+    updateBigInput();
   });
 
   const dupeButton = document.createElement("button");
@@ -80,7 +122,7 @@ function drawSectionButton(name, index) {
     }
   });
 
-  newBox.appendChild(nameSpan);
+  newBox.appendChild(nameButton);
   newBox.appendChild(dupeButton);
   newBox.appendChild(delButton);
   newBox.appendChild(upButton);
@@ -93,6 +135,10 @@ function drawSectionButton(name, index) {
  * Draws all section buttons in global lSong.sectionOrder
  */
 function drawSectionArr() {
+  if (lSong.sections.length == 0) {
+    currentSection = null;
+  }
+
   sectionButtonContainer.innerHTML = "";
   let i = 0;
   for (let name of lSong.sectionOrder) {
@@ -108,7 +154,8 @@ function drawSectionArr() {
  * @param name Name of the new section
  */
 function pushSection(name) {
-  const newSection = window.mss.Section();
+  // RMBSCL
+  const newSection = window.mss.BasicSection();
   newSection.name = name;
 
   lSong.sections.push(newSection);

@@ -41,6 +41,8 @@ contextBridge.exposeInMainWorld("Parser", {
 contextBridge.exposeInMainWorld("mss", {
   Song: () => { return new MSS.Song() },
   Section: () => { return new MSS.Section() },
-  Verse: () => { return new MSS.Verse() }
+  Verse: () => { return new MSS.Verse() },
+  BasicSong: () => { return new MSS.BasicSong() },
+  BasicSection: () => { return new MSS.BasicSection() },
 })
 
