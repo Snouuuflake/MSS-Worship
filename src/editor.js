@@ -14,6 +14,7 @@ window.Parser.debugPrintSong(lSong);
 
 // --------- Section for one-time startup things
 bigInput.disabled = true;
+let uiIsLocked = false;
 // ---------------------------------------------
 
 /**
@@ -21,6 +22,7 @@ bigInput.disabled = true;
  * Not like it really matters i think
  */
 async function alert2(heading) {
+  uiIsLocked = true;
   const promptBox = document.createElement("div");
   promptBox.classList.add("promptBox");
 
@@ -44,6 +46,7 @@ async function alert2(heading) {
 
   return new Promise((resolve) => {
     okButton.addEventListener("click", (event) => {
+      uiIsLocked = false;
       promptBox.remove();
       resolve(true);
     });
@@ -51,6 +54,7 @@ async function alert2(heading) {
 }
 
 async function confirm2(heading) {
+  uiIsLocked = true;
   const promptBox = document.createElement("div");
   promptBox.classList.add("promptBox");
 
@@ -78,10 +82,12 @@ async function confirm2(heading) {
 
   return new Promise((resolve) => {
     yesButton.addEventListener("click", (event) => {
+      uiIsLocked = false;
       promptBox.remove();
       resolve(true);
     });
     noButton.addEventListener("click", (event) => {
+      uiIsLocked = false;
       promptBox.remove();
       resolve(false);
     });
@@ -97,6 +103,7 @@ async function confirm2(heading) {
  * @return null if exited or input box contents
  */
 async function prompt2(heading, filler) {
+  uiIsLocked = true;
   const promptBox = document.createElement("div");
   promptBox.classList.add("promptBox");
 
@@ -134,10 +141,12 @@ async function prompt2(heading, filler) {
 
   return new Promise((resolve) => {
     exitButton.addEventListener("click", (event) => {
+      uiIsLocked = false;
       promptBox.remove();
       resolve(null);
     });
     submitButton.addEventListener("click", (event) => {
+      uiIsLocked = false;
       let res = promptInput.value.trim(); // NOTE: we trim the input.
       promptBox.remove();
       resolve(res);
@@ -160,7 +169,7 @@ function getSectionIndex(sectionName) {
 }
 
 // TODO: maybe document this lol
-function songToString() {
+async function songToString() {
   let title = null;
   let author = null;
 
@@ -187,35 +196,23 @@ function songToString() {
     }
   }
 
+  if (resString.trim() == "") {
+    throw new Error("Song is empty!");
+  }
 
-  return new Promise((resolve) => {
-    if (resString.trim() == "") {
-      throw new Error("Song is empty!");
-    }
+  title = await prompt2("Song title:", "")
+  if (!title) {
+    throw new Error("Song has no Title!");
+  }
 
-    prompt2("Song title:", "").then((value) => {
-      if (value) {
-        title = value;
-      } else {
-        throw new Error("Song has no Title!");
-      }
-      return null; // because not defing result below stresses me
-    }).then((result) => {
-      prompt2("Song author:", "Author is optional..").then((value) => {
-        if (value) {
-          author = value;
-        } else {
-          author = "no author"
-        }
-      });
-      return null;
-    });
+  author = await prompt2("Song author:", "Author is optional..")
+  if (!author) {
+    author = "no author";
+  }
 
+  resString = ("!-T " + title + "\n\n") + ("!-A " + author + "\n\n") + resString;
 
-    resString = ("!-T" + title + "\n\n") + ("!-A" + author + "\n\n") + resString;
-
-    resolve(resString);
-  });
+  return resString;
 
 }
 
@@ -389,29 +386,35 @@ bigInput.addEventListener("input", (event) => {
   * validate that the name has not already been used ig
   */
 addSectionButton.addEventListener("click", (event) => {
-  console.log("clicked!");
+  console.log("clicked! " + "ui is " + (uiIsLocked ? "" : "not ") + "locked.");
 
-  prompt2("Enter name of new section:", "name..").then((result) => {
-    if (result == null || result == "" || lSong.sectionOrder.find((a) => { return a == result })) { // validates that a section with that name doesnt already exist
-      console.log("No new section name!");
-    } else {
-      console.log("New section name: " + result);
-      pushSection(result);
-      currentSection = lSong.sections[lSong.sections.length - 1];
-      updateBigInput();
+  if (!uiIsLocked) {
 
-    }
-  });
+    prompt2("Enter name of new section:", "name..").then((result) => {
+      if (result == null || result == "" || lSong.sectionOrder.find((a) => { return a == result })) { // validates that a section with that name doesnt already exist
+        console.log("No new section name!");
+      } else {
+        console.log("New section name: " + result);
+        pushSection(result);
+        currentSection = lSong.sections[lSong.sections.length - 1];
+        updateBigInput();
 
-});
+      }
+    });
+  }
+})
 
 writeSongButton.addEventListener("click", (event) => {
+  if (!uiIsLocked) {
+    songToString().then((value) => {
+      console.log("songToString():");
+      console.log(value);
+      window.editorAPI.sendSongString(value);
+    }).catch((error) => {
+      console.log("Handled error: " + error.message);
+      alert2(error.message);
+    })
+  }
 
-  songToString().then((value) => {
-    console.log("songToString():");
-    console.log(value);
-  }).catch((error) => {
-    console.log("Handled error: " + error.message);
-    alert2(error.message);
-  })
 })
+

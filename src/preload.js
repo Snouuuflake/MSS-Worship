@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('mainAPI', {
   onImageAdded: (callback) => ipcRenderer.on("add-image-to-main", (_event, value) => callback(value)),
   onCL2: (callback) => ipcRenderer.on("CL2", (_event, value) => callback(value)),
 
+  sendOpenEditor: () => ipcRenderer.send("open-editor", "a message"),
   sendReadSong: () => ipcRenderer.send("read-song", "a message"),
   sendReadImage: () => ipcRenderer.send("read-image", "a message"),
   sendReadDir: () => ipcRenderer.send("read-dir", "a message"),

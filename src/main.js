@@ -45,7 +45,7 @@ function drawVerse(verse) {
 
   verseButton.classList.add("verse-button");
 
-  for (i = 0; i < verse.lines.length -1; i++) {
+  for (i = 0; i < verse.lines.length - 1; i++) {
     contentStr += verse.lines[i] + "<BR />";
   }
 
@@ -106,7 +106,7 @@ function drawSong(song) {
   for (let sectionName of song.sectionOrder) {
     // console.log(song.sections.find( (s) => s.name == sectionName));
 
-    drawSection(song.sections.find( (s) => s.name == sectionName));
+    drawSection(song.sections.find((s) => s.name == sectionName));
 
   }
   verseButtons = document.querySelectorAll(".verse-button");
@@ -156,16 +156,16 @@ function drawImageButton(image, index) {
   // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!
   // the above problem is now solved with the two if statements
   if (image.path.includes("\\")) {
-    thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\')+1);
+    thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\') + 1);
   }
 
   if (thisButton.innerText.includes("/")) {
-    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('/')+1);
+    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('/') + 1);
   }
 
   // hides anything before the !-H command
   if (thisButton.innerText.includes("!-H")) {
-    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H')+3).trim();
+    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H') + 3).trim();
   }
 
 
@@ -215,14 +215,14 @@ function drawSongList() {
 
 const delButton = document.querySelector("#del-element");
 delButton.addEventListener("click", () => {
-  renderSongList.splice(currentButtonIndex,1);
+  renderSongList.splice(currentButtonIndex, 1);
   drawSongList();
 })
 
 const upButton = document.querySelector("#mv-element-up");
 upButton.addEventListener("click", () => {
   if (currentButtonIndex > 0) {
-    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex - 1) );
+    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex - 1));
     drawSongList();
     currentButtonIndex--;
   }
@@ -231,11 +231,16 @@ upButton.addEventListener("click", () => {
 const downButton = document.querySelector("#mv-element-down");
 downButton.addEventListener("click", () => {
   if (currentButtonIndex < (renderSongList.length - 1)) {
-    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex + 1) );
+    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex + 1));
     currentButtonIndex++;
     drawSongList();
   }
 })
+
+const openEditorButton = document.querySelector("#open-editor");
+openEditorButton.addEventListener("click", () => {
+  window.mainAPI.sendOpenEditor();
+});
 
 const readSongButton = document.querySelector("#read-song");
 readSongButton.addEventListener("click", () => {
@@ -309,7 +314,7 @@ window.mainAPI.onSongAdded((value) => {
 })
 
 window.mainAPI.onImageAdded((value) => {
-  renderSongList.push({type: "image", path: value});
+  renderSongList.push({ type: "image", path: value });
   drawSongList();
 })
 
@@ -374,16 +379,16 @@ window.mainAPI.onCL2((value) => {
 
 // Moved here to be able to call all functions
 // Set up a key event handler for the document
-document.addEventListener("keydown", function(event){
+document.addEventListener("keydown", function(event) {
   // Check for up/down key presses
-  switch(event.key){
+  switch (event.key) {
     case "ArrowUp": // Up arrow    
       currentVerseLI = currentVerseLI > 0 ? --currentVerseLI : 0;     // Decrease the counter      
       verseButtons[currentVerseLI].focus();
       break;
 
     case "ArrowDown": // Down arrow
-      currentVerseLI = currentVerseLI < verseButtons.length-1 ? ++currentVerseLI : verseButtons.length-1; // Increase counter 
+      currentVerseLI = currentVerseLI < verseButtons.length - 1 ? ++currentVerseLI : verseButtons.length - 1; // Increase counter 
       verseButtons[currentVerseLI].focus();
       break;
 
@@ -391,11 +396,11 @@ document.addEventListener("keydown", function(event){
     case "w":
       currentSongLI = currentSongLI > 0 ? --currentSongLI : 0;     // Decrease the counter      
       songButtons[currentSongLI].focus();
-      break;    
+      break;
 
     case "S":
     case "s":
-      currentSongLI = currentSongLI < songButtons.length-1 ? ++currentSongLI : songButtons.length-1; // Increase counter 
+      currentSongLI = currentSongLI < songButtons.length - 1 ? ++currentSongLI : songButtons.length - 1; // Increase counter 
       songButtons[currentSongLI].focus();
       break;
 

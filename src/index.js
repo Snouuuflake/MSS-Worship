@@ -96,7 +96,7 @@ const createMainWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    width: 800,
+    width: 890,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -153,6 +153,27 @@ const createEditorWindow = () => {
   });
 
 };
+
+ipcMain.on("open-editor", (event, data) => {
+  createEditorWindow();
+});
+
+// editor-related ipc events
+ipcMain.on("song-string-to-main", (event, data) => {
+  let lOptions = {
+    title: "Save Song",
+    buttonLabel: "Save",
+
+    filters: [
+      { name: 'txt', extensions: ['txt'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  };
+
+  dialog.showSaveDialog(null, lOptions).then(({ filePath }) => {
+    fs.writeFileSync(filePath, data, 'utf-8');
+  });
+});
 
 /**
  * Console log 2 
@@ -381,9 +402,7 @@ ipcMain.on("save-dir", (event, data) => {
 // 
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  // FIXME: going to just work on text editor ig
-  // createMainWindow();
-  createEditorWindow();
+  createMainWindow();
 
   console.log(BrowserWindow.getAllWindows());
 });
