@@ -1,3 +1,6 @@
+# New in 0.5.0!
+v0.5.0 brings a graphic song editor, making the process more intuitive for those intimidated by editing the plain text files. However, the lyric file format will continue to be designed with easy manual editing in mind.
+
 # MSS-Worship
 An open-source Electron app for displaying song lyrics, images, and more, designed with worship in mind.
 
@@ -18,7 +21,7 @@ Thus, the project was started with the following objectives in mind, and named a
 - Custom plain text lyric file format that allows for automatic section repetition
 - Two separate projection windows, each fully and independently customizable via css
 - Image projection (supported formats: jpeg, jpg, gif, png)
-#### New in v0.3.1:
+- A graphic song editor
 - Ability to read an entire setlist from a folder
 - Ability to write an entire setlist to a folder, preserving the order of its items
 
