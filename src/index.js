@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
+/* a comment */
 
 const Song = require("./mss.js").Song;
 const Section = require("./mss.js").Section;

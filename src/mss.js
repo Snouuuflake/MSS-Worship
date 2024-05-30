@@ -1,4 +1,4 @@
-// Important global functions and classes and stuff 
+// Important classes and stuff 
 
 class Verse {
   constructor() {
