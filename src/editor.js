@@ -1,16 +1,20 @@
 const bigInput = document.getElementById("bigInput");
-const sectionButtonContainer = document.getElementById("sectionButtonContainer");
+const sectionButtonContainer = document.getElementById(
+  "sectionButtonContainer",
+);
 const addSectionButton = document.getElementById("addSection");
 const writeSongButton = document.getElementById("writeSong");
+const readSongButton = document.getElementById("readSong");
 
-const lSong = window.mss.BasicSong();
+let gSong = window.mss.BasicSong();
+
 // BasicSong doesnt have verses / lines; just a block of text.
 // NOTE: this has to be changed for editing songs loaded in main window
 // changes need to be done at RMBSCL
 
 let currentSection = null;
 
-window.Parser.debugPrintSong(lSong);
+window.Parser.debugPrintSong(gSong);
 
 // --------- Section for one-time startup things
 bigInput.disabled = true;
@@ -18,7 +22,9 @@ let uiIsLocked = false;
 // ---------------------------------------------
 
 /**
- * Resolve true when ok is pressed, idk what else to do
+ * Async version of html alert
+ * @param heading Text content of popup
+ * @returns promise that resolve true when ok is pressed, idk what else to do
  * Not like it really matters i think
  */
 async function alert2(heading) {
@@ -37,7 +43,6 @@ async function alert2(heading) {
   okButton.classList.add("promptButton");
   okButton.innerText = "Ok";
 
-
   promptBox.appendChild(promptHeading);
   promptButtonContainer.appendChild(okButton);
   promptBox.appendChild(promptButtonContainer);
@@ -53,6 +58,11 @@ async function alert2(heading) {
   });
 }
 
+/**
+ * Async version of html confirm
+ * @param heading Text content of popup
+ * @returns promise that resolves true or false
+ */
 async function confirm2(heading) {
   uiIsLocked = true;
   const promptBox = document.createElement("div");
@@ -124,7 +134,6 @@ async function prompt2(heading, filler) {
   exitButton.classList.add("promptButton");
   exitButton.innerText = "Exit";
 
-
   const submitButton = document.createElement("button");
   submitButton.classList.add("promptButton");
   submitButton.innerText = "Ok";
@@ -154,14 +163,13 @@ async function prompt2(heading, filler) {
   });
 }
 
-
 /**
  * Looks for and returns index of element in sections
  * with sectionName. If not found, returns -1.
  */
 function getSectionIndex(sectionName) {
-  for (let i = 0; i < lSong.sections.length; i++) {
-    if (lSong.sections[i].name == sectionName) {
+  for (let i = 0; i < gSong.sections.length; i++) {
+    if (gSong.sections[i].name == sectionName) {
       return i;
     }
   }
@@ -178,20 +186,20 @@ async function songToString() {
   // convenient array methods are for the weak.
   let resString = "";
 
-  // bool for if each index of lSong .sections has been defined in resString
+  // bool for if each index of gSong .sections has been defined in resString
   const writtenArr = [];
-  for (let i = 0; i < lSong.sections.length; i++) {
+  for (let i = 0; i < gSong.sections.length; i++) {
     writtenArr[i] = false; // is this bad practice?
   }
 
-  for (let sname of lSong.sectionOrder) {
+  for (let sname of gSong.sectionOrder) {
     let indexToWrite = getSectionIndex(sname);
     if (writtenArr[indexToWrite] == true) {
-      resString += ("!-R " + sname + "\n\n");
+      resString += "!-R " + sname + "\n\n";
     } else {
       writtenArr[indexToWrite] = true;
-      resString += ("!-S " + sname + "\n");
-      resString += lSong.sections[indexToWrite].text;
+      resString += "!-S " + sname + "\n";
+      resString += gSong.sections[indexToWrite].text;
       resString += "\n\n";
     }
   }
@@ -200,20 +208,19 @@ async function songToString() {
     throw new Error("Song is empty!");
   }
 
-  title = await prompt2("Song title:", "")
+  title = await prompt2("Song title:", "");
   if (!title) {
     throw new Error("Song has no Title!");
   }
 
-  author = await prompt2("Song author:", "Author is optional..")
+  author = await prompt2("Song author:", "Author is optional..");
   if (!author) {
     author = "no author";
   }
 
-  resString = ("!-T " + title + "\n\n") + ("!-A " + author + "\n\n") + resString;
+  resString = "!-T " + title + "\n\n" + ("!-A " + author + "\n\n") + resString;
 
   return resString;
-
 }
 
 /**
@@ -241,7 +248,6 @@ function updateBigInput() {
  * @param index Allows button's event listeners to know its index
  */
 function drawSectionButton(name, index) {
-
   const newBox = document.createElement("div");
   newBox.classList.add("sectionButtonBox");
 
@@ -250,7 +256,9 @@ function drawSectionButton(name, index) {
   nameButton.classList.add("sectionNameButton");
 
   nameButton.addEventListener("click", () => {
-    currentSection = lSong.sections.find((s) => { return s.name == name });
+    currentSection = gSong.sections.find((s) => {
+      return s.name == name;
+    });
     updateBigInput();
   });
 
@@ -260,29 +268,39 @@ function drawSectionButton(name, index) {
   delButton.classList.add("sectionSubButton");
 
   delButton.addEventListener("click", () => {
-    if (lSong.sectionOrder.filter((n) => { return n == name }).length == 1) {
-
+    if (
+      gSong.sectionOrder.filter((n) => {
+        return n == name;
+      }).length == 1
+    ) {
       // TODO: WHY DOES IT WAIT FOR A SECOND BUTTON PRRESS??
       confirm2("Permanently delete section?").then((value) => {
         if (value) {
-          lSong.sectionOrder = lSong.sectionOrder.filter((n) => { return n != name })
-          lSong.sections = lSong.sections.filter((s) => { return s.name != name })
+          gSong.sectionOrder = gSong.sectionOrder.filter((n) => {
+            return n != name;
+          });
+          gSong.sections = gSong.sections.filter((s) => {
+            return s.name != name;
+          });
 
-          if (lSong.sections.length == 0) {
+          if (gSong.sections.length == 0) {
             currentSection = null;
           } else {
-            for (let i = 0; i < lSong.sections.length && lSong.sections[i].name != name; i++) {
-              currentSection = lSong.sections[i];
+            for (
+              let i = 0;
+              i < gSong.sections.length && gSong.sections[i].name != name;
+              i++
+            ) {
+              currentSection = gSong.sections[i];
             }
           }
         }
         // TODO: maybe move these up?
         drawSectionArr();
         updateBigInput();
-      })
-
+      });
     } else {
-      lSong.sectionOrder.splice(index, 1);
+      gSong.sectionOrder.splice(index, 1);
       drawSectionArr();
       updateBigInput();
     }
@@ -297,8 +315,10 @@ function drawSectionButton(name, index) {
   dupeButton.classList.add("sectionSubButton");
 
   dupeButton.addEventListener("click", () => {
-    lSong.sectionOrder.push(name);
-    currentSection = lSong.sections.find((s) => { return s.name == name });
+    gSong.sectionOrder.push(name);
+    currentSection = gSong.sections.find((s) => {
+      return s.name == name;
+    });
     updateBigInput();
     drawSectionArr();
   });
@@ -309,8 +329,8 @@ function drawSectionButton(name, index) {
   upButton.classList.add("sectionSubButton");
 
   upButton.addEventListener("click", () => {
-    if (index > 0 && lSong.sectionOrder.length > 1) {
-      swapElements(lSong.sectionOrder, index, (index - 1));
+    if (index > 0 && gSong.sectionOrder.length > 1) {
+      swapElements(gSong.sectionOrder, index, index - 1);
       drawSectionArr();
     }
   });
@@ -321,8 +341,11 @@ function drawSectionButton(name, index) {
   downButton.classList.add("sectionSubButton");
 
   downButton.addEventListener("click", () => {
-    if (index < (lSong.sectionOrder.length - 1) && lSong.sectionOrder.length > 1) {
-      swapElements(lSong.sectionOrder, index, (index + 1));
+    if (
+      index < gSong.sectionOrder.length - 1 &&
+      gSong.sectionOrder.length > 1
+    ) {
+      swapElements(gSong.sectionOrder, index, index + 1);
       drawSectionArr();
     }
   });
@@ -337,16 +360,16 @@ function drawSectionButton(name, index) {
 }
 
 /**
- * Draws all section buttons in global lSong.sectionOrder
+ * Draws all section buttons in global gSong.sectionOrder
  */
 function drawSectionArr() {
-  if (lSong.sections.length == 0) {
+  if (gSong.sections.length == 0) {
     currentSection = null;
   }
 
   sectionButtonContainer.innerHTML = "";
   let i = 0;
-  for (let name of lSong.sectionOrder) {
+  for (let name of gSong.sectionOrder) {
     drawSectionButton(name, i);
     i++;
   }
@@ -363,13 +386,11 @@ function pushSection(name) {
   const newSection = window.mss.BasicSection();
   newSection.name = name;
 
-  lSong.sections.push(newSection);
-  lSong.sectionOrder.push(name)
+  gSong.sections.push(newSection);
+  gSong.sectionOrder.push(name);
 
   drawSectionArr();
 }
-
-
 
 bigInput.addEventListener("input", (event) => {
   console.log(bigInput.value);
@@ -380,41 +401,84 @@ bigInput.addEventListener("input", (event) => {
 });
 
 /**
-  * Add uhh
-  * uhh
-  * a section to our song object with a popup to get the name
-  * validate that the name has not already been used ig
-  */
+ * Add uhh
+ * uhh
+ * a section to our song object with a popup to get the name
+ * validate that the name has not already been used ig
+ */
 addSectionButton.addEventListener("click", (event) => {
   console.log("clicked! " + "ui is " + (uiIsLocked ? "" : "not ") + "locked.");
 
   if (!uiIsLocked) {
-
     prompt2("Enter name of new section:", "name..").then((result) => {
-      if (result == null || result == "" || lSong.sectionOrder.find((a) => { return a == result })) { // validates that a section with that name doesnt already exist
+      if (
+        result == null ||
+        result == "" ||
+        gSong.sectionOrder.find((a) => {
+          return a == result;
+        })
+      ) {
+        // validates that a section with that name doesnt already exist
         console.log("No new section name!");
       } else {
         console.log("New section name: " + result);
         pushSection(result);
-        currentSection = lSong.sections[lSong.sections.length - 1];
+        currentSection = gSong.sections[gSong.sections.length - 1];
         updateBigInput();
-
       }
     });
   }
-})
+});
 
 writeSongButton.addEventListener("click", (event) => {
   if (!uiIsLocked) {
-    songToString().then((value) => {
-      console.log("songToString():");
-      console.log(value);
-      window.editorAPI.sendSongString(value);
-    }).catch((error) => {
-      console.log("Handled error: " + error.message);
-      alert2(error.message);
-    })
+    songToString()
+      .then((value) => {
+        console.log("songToString():");
+        console.log(value);
+        window.editorAPI.sendSongString(value);
+      })
+      .catch((error) => {
+        console.log("Handled error: " + error.message);
+        alert2(error.message);
+      });
+  }
+});
+
+readSongButton.addEventListener("click", (event) => {
+  if (!uiIsLocked) {
+    window.editorAPI.sendReadSong("a string");
+  }
+});
+
+window.editorAPI.onReadSong((value) => {
+  console.log("does this run?");
+  console.log("Got song string from main");
+  console.log(value);
+  const lSong = JSON.parse(value).song;
+
+  gSong = window.mss.BasicSong();
+
+  gSong.data.title = lSong.data.title;
+  gSong.data.author = lSong.data.author;
+
+  for (let i = 0; i < lSong.sectionOrder.length; i++) {
+    gSong.sectionOrder[i] = lSong.sectionOrder[i];
   }
 
-})
+  for (let i = 0; i < lSong.sections.length; i++) {
+    gSong.sections[i] = window.mss.BasicSection();
+    gSong.sections[i].name = lSong.sections[i].name;
 
+    for (let g = 0; g < lSong.sections[i].verses.length; g++) {
+      for (let k = 0; k < lSong.sections[i].verses[g].lines.length; k++) {
+        gSong.sections[i].text += lSong.sections[i].verses[g].lines[k];
+      gSong.sections[i].text += "\n";
+      }
+      gSong.sections[i].text += "\n";
+    }
+    gSong.sections[i].text = gSong.sections[i].text.trim();
+  }
+
+  drawSectionArr();
+});
