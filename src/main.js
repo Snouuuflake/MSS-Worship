@@ -7,34 +7,84 @@ let globalButtonCounter = 0;
 
 const verseList = document.querySelector(".verse-list");
 
-
 let verseButtons = document.querySelectorAll(".verse-button");
 let songButtons = document.querySelectorAll(".song-button");
 
-const console = document.querySelector(".console");
-const consoleContent = document.querySelector(".console-content");
-
+const console2 = document.querySelector(".console2");
+const consoleContent = document.querySelector(".console2-content");
 
 // css root
 const r = document.querySelector(":root");
 
+const searchBox = document.querySelector(".search-box");
+let jumpList = [];
+let jumpListIndex = 0;
+
+function findVerse(s) {
+  jumpList = [...document.getElementsByClassName("verse-button")].filter(
+    /**
+     * @param {HTMLElement} e
+     * @return {boolean}
+     */
+    (e) => {
+      if (e.innerText.toUpperCase().includes(s.toUpperCase())) {
+        console.log(e);
+        return true;
+      } else {
+        return false;
+      }
+    },
+  );
+  console.log(jumpList);
+}
+
+searchBox.addEventListener("blur", (_e) => {
+  searchBox.classList.remove("ballin");
+  searchBox.classList.add("dead");
+});
+searchBox.addEventListener("focus", (_e) => {
+  searchBox.value = "";
+});
+
+searchBox.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "Enter":
+      if (searchBox.value.trim()) {
+        findVerse(searchBox.value.trim());
+
+        if (jumpList.length > 0) {
+          jumpList[0].click();
+          jumpList[0].focus();
+        }
+      }
+      searchBox.blur();
+      break;
+    // case "/":
+    //   searchBox.blur();
+    //   break;
+  }
+});
+
 // fixes song menu height
-document.querySelector(".song-list-container").style.top = (
-  document.querySelector(".top-menu-container").getBoundingClientRect().height
-) + "px";
+document.querySelector(".song-list-container").style.top =
+  document.querySelector(".top-menu-container").getBoundingClientRect().height +
+  "px";
 
-window.addEventListener('resize', function(event) {
-  const h = document.querySelector(".top-menu-container").getBoundingClientRect().height;
+window.addEventListener(
+  "resize",
+  function(_event) {
+    const h = document
+      .querySelector(".top-menu-container")
+      .getBoundingClientRect().height;
 
-  document.querySelector(".song-list-container").style.top = h + "px";
-}, true);
-
+    document.querySelector(".song-list-container").style.top = h + "px";
+  },
+  true,
+);
 
 // "current selected button"
 let currentVerseLI = 0;
 let currentSongLI = 0;
-
-
 
 function drawVerse(verse) {
   let i = 0;
@@ -58,8 +108,6 @@ function drawVerse(verse) {
   verseButton.globalIndex = globalButtonCounter++;
 
   verseButton.addEventListener("click", () => {
-
-    // console.log("hi");
     window.mainAPI.sendDisplayText(contentStr);
 
     // for arrow keys to sync right
@@ -72,13 +120,11 @@ function drawVerse(verse) {
     verseButton.classList.add("last-pressed");
 
     lastPressed = verseButton;
-
   });
 
   verseLi.appendChild(verseButton);
 
   verseList.appendChild(verseLi);
-
 }
 
 function drawSection(section) {
@@ -91,7 +137,6 @@ function drawSection(section) {
   for (let i of section.verses) {
     drawVerse(i);
   }
-
 }
 
 function drawSong(song) {
@@ -103,19 +148,16 @@ function drawSong(song) {
   currentVerseLI = 0;
   globalButtonCounter = 0;
 
+  jumpList = [];
+  jumpListIndex = 0;
+
   for (let sectionName of song.sectionOrder) {
-    // console.log(song.sections.find( (s) => s.name == sectionName));
-
     drawSection(song.sections.find((s) => s.name == sectionName));
-
   }
   verseButtons = document.querySelectorAll(".verse-button");
 
   verseButtons[0].focus();
 }
-
-
-
 
 function swapElements(array, index1, index2) {
   [array[index1], array[index2]] = [array[index2], array[index1]];
@@ -135,12 +177,11 @@ function drawSongButton(song, index) {
   thisButton.addEventListener("click", () => {
     drawSong(song);
     currentButtonIndex = index;
-  })
+  });
 
   thisLi.appendChild(thisButton);
 
   songList.appendChild(thisLi);
-
 }
 
 function drawImageButton(image, index) {
@@ -156,18 +197,23 @@ function drawImageButton(image, index) {
   // !!!!!!!! backslash does not work on any other operating system !!!!!!!!!!!!
   // the above problem is now solved with the two if statements
   if (image.path.includes("\\")) {
-    thisButton.innerText = image.path.substring(image.path.lastIndexOf('\\') + 1);
+    thisButton.innerText = image.path.substring(
+      image.path.lastIndexOf("\\") + 1,
+    );
   }
 
   if (thisButton.innerText.includes("/")) {
-    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('/') + 1);
+    thisButton.innerText = thisButton.innerText.substring(
+      thisButton.innerText.lastIndexOf("/") + 1,
+    );
   }
 
   // hides anything before the !-H command
   if (thisButton.innerText.includes("!-H")) {
-    thisButton.innerText = thisButton.innerText.substring(thisButton.innerText.lastIndexOf('!-H') + 3).trim();
+    thisButton.innerText = thisButton.innerText
+      .substring(thisButton.innerText.lastIndexOf("!-H") + 3)
+      .trim();
   }
-
 
   thisButton.addEventListener("click", () => {
     const verseList = document.querySelector(".verse-list");
@@ -183,14 +229,12 @@ function drawImageButton(image, index) {
     });
 
     verseList.appendChild(showButton);
-  })
+  });
 
   thisLi.appendChild(thisButton);
 
   songList.appendChild(thisLi);
-
 }
-
 
 function drawSongList() {
   const songList = document.querySelector(".song-list");
@@ -212,30 +256,29 @@ function drawSongList() {
   currentSongLI = 0;
 }
 
-
 const delButton = document.querySelector("#del-element");
 delButton.addEventListener("click", () => {
   renderSongList.splice(currentButtonIndex, 1);
   drawSongList();
-})
+});
 
 const upButton = document.querySelector("#mv-element-up");
 upButton.addEventListener("click", () => {
   if (currentButtonIndex > 0) {
-    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex - 1));
+    swapElements(renderSongList, currentButtonIndex, currentButtonIndex - 1);
     drawSongList();
     currentButtonIndex--;
   }
-})
+});
 
 const downButton = document.querySelector("#mv-element-down");
 downButton.addEventListener("click", () => {
-  if (currentButtonIndex < (renderSongList.length - 1)) {
-    swapElements(renderSongList, currentButtonIndex, (currentButtonIndex + 1));
+  if (currentButtonIndex < renderSongList.length - 1) {
+    swapElements(renderSongList, currentButtonIndex, currentButtonIndex + 1);
     currentButtonIndex++;
     drawSongList();
   }
-})
+});
 
 const openEditorButton = document.querySelector("#open-editor");
 openEditorButton.addEventListener("click", () => {
@@ -259,8 +302,7 @@ readDirButton.addEventListener("click", () => {
 
 const saveDirButton = document.querySelector("#save-dir");
 saveDirButton.addEventListener("click", () => {
-  // console.log("sending saveDir: ", renderSongList.map(a => a.path))
-  window.mainAPI.sendSaveDir(JSON.stringify(renderSongList.map(a => a.path)));
+  window.mainAPI.sendSaveDir(JSON.stringify(renderSongList.map((a) => a.path)));
 });
 
 const window1Button = document.querySelector("#create-window-1");
@@ -306,18 +348,16 @@ blackButton.addEventListener("click", () => {
 window.mainAPI.onSongAdded((value) => {
   const parsedJson = JSON.parse(value);
   const parsedSong = parsedJson.song;
-  // console.log("parsedJson.path: ", parsedJson.path);
   parsedSong.type = "song";
   parsedSong.path = parsedJson.path; // this is dumb but it works and is somehow clearer to me..
   renderSongList.push(parsedSong);
   drawSongList();
-})
+});
 
 window.mainAPI.onImageAdded((value) => {
   renderSongList.push({ type: "image", path: value });
   drawSongList();
-})
-
+});
 
 // lightmode toggle
 const lightModeButton = document.querySelector("#to-light-mode");
@@ -330,7 +370,10 @@ lightModeButton.addEventListener("click", () => {
     r.style.setProperty("--c2", "#CDC5C5");
     r.style.setProperty("--c1", "#ADA9A9");
     r.style.setProperty("--c4", "white");
-    r.style.setProperty("--softBg", "linear-gradient(90deg, rgba(224,141,144,1) 0%, rgba(148,190,219,1) 100%)");
+    r.style.setProperty(
+      "--softBg",
+      "linear-gradient(90deg, rgba(224,141,144,1) 0%, rgba(148,190,219,1) 100%)",
+    );
     r.style.setProperty("--scrollBg", "#b4d7f2");
     r.style.setProperty("--scrollMix", "#000000");
     r.style.setProperty("--shadowNums", "0,0,0, 0.3");
@@ -346,7 +389,10 @@ lightModeButton.addEventListener("click", () => {
     r.style.setProperty("--c2", "#6C757D");
     r.style.setProperty("--c3", "#343A40");
     r.style.setProperty("--c4", "#212529");
-    r.style.setProperty("--softBg", "linear-gradient(90deg, rgba(54,23,24,1) 0%, rgba(14,27,36,1) 100%)");
+    r.style.setProperty(
+      "--softBg",
+      "linear-gradient(90deg, rgba(54,23,24,1) 0%, rgba(14,27,36,1) 100%)",
+    );
     r.style.setProperty("--scrollBg", "#1e2c37");
     r.style.setProperty("--scrollMix", "#ffffff");
     r.style.setProperty("--shadowNums", "0, 0, 0, 0.1");
@@ -358,49 +404,61 @@ lightModeButton.addEventListener("click", () => {
 
     lightModeButton.classList.remove("check-active");
   }
-})
+});
 
 const clearDisplayButton = document.querySelector("#clear-display");
 clearDisplayButton.addEventListener("click", () => {
   window.mainAPI.sendClearDisplay();
-})
+});
 
 function toggleConsole() {
-  if (console.style.display == "block") {
-    console.style.display = "none";
+  if (console2.style.display == "block") {
+    console2.style.display = "none";
   } else {
-    console.style.display = "block";
+    console2.style.display = "block";
   }
 }
 
 window.mainAPI.onCL2((value) => {
-  consoleContent.innerHTML += ("<BR>" + value);
+  consoleContent.innerHTML += "<BR>" + value;
 });
 
 // Moved here to be able to call all functions
 // Set up a key event handler for the document
 document.addEventListener("keydown", function(event) {
   // Check for up/down key presses
+  if (event.target.tagName === "INPUT") {
+    switch (event.key) {
+    }
+    return;
+  }
+
   switch (event.key) {
-    case "ArrowUp": // Up arrow    
-      currentVerseLI = currentVerseLI > 0 ? --currentVerseLI : 0;     // Decrease the counter      
+    case "ArrowUp": // Up arrow
+      currentVerseLI = currentVerseLI > 0 ? --currentVerseLI : 0; // Decrease the counter
       verseButtons[currentVerseLI].focus();
       break;
 
     case "ArrowDown": // Down arrow
-      currentVerseLI = currentVerseLI < verseButtons.length - 1 ? ++currentVerseLI : verseButtons.length - 1; // Increase counter 
+      currentVerseLI =
+        currentVerseLI < verseButtons.length - 1
+          ? ++currentVerseLI
+          : verseButtons.length - 1; // Increase counter
       verseButtons[currentVerseLI].focus();
       break;
 
     case "W":
     case "w":
-      currentSongLI = currentSongLI > 0 ? --currentSongLI : 0;     // Decrease the counter      
+      currentSongLI = currentSongLI > 0 ? --currentSongLI : 0; // Decrease the counter
       songButtons[currentSongLI].focus();
       break;
 
     case "S":
     case "s":
-      currentSongLI = currentSongLI < songButtons.length - 1 ? ++currentSongLI : songButtons.length - 1; // Increase counter 
+      currentSongLI =
+        currentSongLI < songButtons.length - 1
+          ? ++currentSongLI
+          : songButtons.length - 1; // Increase counter
       songButtons[currentSongLI].focus();
       break;
 
@@ -417,6 +475,37 @@ document.addEventListener("keydown", function(event) {
     case "C":
     case "c":
       toggleConsole();
+      break;
+
+    case "n":
+      if (jumpList.length > 0) {
+        jumpListIndex =
+          jumpListIndex + 1 < jumpList.length ? jumpListIndex + 1 : 0;
+        jumpList[jumpListIndex].click();
+        jumpList[jumpListIndex].focus();
+      }
+      break;
+
+    case "N":
+      if (jumpList.length > 0) {
+        jumpListIndex =
+          jumpListIndex - 1 > 0 ? jumpListIndex - 1 : jumpList.length - 1;
+        jumpList[jumpListIndex].click();
+        jumpList[jumpListIndex].focus();
+      }
+      break;
+
+    case "/":
+      event.preventDefault();
+      if (searchBox.classList.contains("ballin")) {
+        searchBox.classList.remove("ballin");
+        searchBox.classList.add("dead");
+        searchBox.blur();
+      } else {
+        searchBox.classList.remove("dead");
+        searchBox.classList.add("ballin");
+        searchBox.focus();
+      }
+      break;
   }
 });
-

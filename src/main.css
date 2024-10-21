@@ -3,12 +3,10 @@
 }
 
 .logo-img {
-  --oc: rgba(255,255,255, var(--logoShadowA));
+  --oc: rgba(255, 255, 255, var(--logoShadowA));
   height: 100px;
-  filter: drop-shadow(1px 1px 0 var(--oc)) 
-    drop-shadow(1px -1px 0 var(--oc)) 
-    drop-shadow(-1px 1px 0 var(--oc))
-    drop-shadow(-1px -1px 0 var(--oc))
+  filter: drop-shadow(1px 1px 0 var(--oc)) drop-shadow(1px -1px 0 var(--oc))
+    drop-shadow(-1px 1px 0 var(--oc)) drop-shadow(-1px -1px 0 var(--oc))
     drop-shadow(0 0 6px rgba(var(--shadowNums)));
   padding-bottom: 8px;
 }
@@ -17,7 +15,11 @@
   position: sticky;
   top: 0;
   background: var(--softBg);
-  mask-image: linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,1) 30px );
+  mask-image: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 1) 30px
+  );
   padding-top: 7px;
   padding-bottom: 30px;
 }
@@ -43,7 +45,7 @@ menu li {
   font-size: 15px;
   font-weight: bold;
   background-color: rgba(var(--c3Vals), 0.6);
-  box-shadow: 0 0 10px rgba(0,0,0,var(--shadowPower));
+  box-shadow: 0 0 10px rgba(0, 0, 0, var(--shadowPower));
 }
 
 .menu-button {
@@ -51,7 +53,6 @@ menu li {
   margin-bottom: 10px;
   border-radius: var(--br);
 }
-
 
 .menu-button:hover {
   background-color: var(--hi);
@@ -67,7 +68,6 @@ menu li {
 
 .check-active {
   background-color: var(--hi) !important;
-
 }
 
 .main-container {
@@ -96,7 +96,6 @@ ul {
   min-height: 100px;
 
   /* background-color: var(--c4);  */
-
 }
 
 .verse-list {
@@ -106,7 +105,7 @@ ul {
 }
 
 .verse-list li {
-  width: 100%
+  width: 100%;
 }
 
 .verse-list button {
@@ -120,7 +119,12 @@ ul {
   background: var(--c3);
 }
 
-.verse-list button:hover, .verse-list button:focus {
+.verse-list button:hover {
+  border: none;
+  outline: none;
+  outline: var(--c2) solid 4px;
+}
+.verse-list button:focus {
   border: none;
   outline: none;
   outline: var(--hi) solid 4px;
@@ -133,9 +137,17 @@ ul {
 .section-heading {
   width: 100%;
   border-radius: var(--br);
-  background-image: linear-gradient(to right, rgba(var(--hiVals), 1),
-    color-mix(in srgb, rgba(var(--hiVals), 0.7) 30%, rgba(var(--hi2Vals), 0.7) 70% ) 55px,
-    rgba(var(--hi2Vals), 0) 100px);
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--hiVals), 1),
+    color-mix(
+        in srgb,
+        rgba(var(--hiVals), 0.7) 30%,
+        rgba(var(--hi2Vals), 0.7) 70%
+      )
+      55px,
+    rgba(var(--hi2Vals), 0) 100px
+  );
   padding-left: 15px;
   margin-top: 15px;
   font-size: 25px;
@@ -181,10 +193,9 @@ ul {
   overflow-y: hidden;
   width: 100%;
   margin: 5px 0;
-
 }
 
-.song-button{
+.song-button {
   font-size: 14px;
   width: 80%;
 
@@ -206,7 +217,11 @@ ul {
 }
 
 .has-song {
-  background: linear-gradient(to right, color-mix(in srgb, rgba(var(--hiVals), 1.0) 30%, rgba(var(--c3Vals), 1.0)), rgba(var(--c3Vals), 0.0));
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, rgba(var(--hiVals), 1) 30%, rgba(var(--c3Vals), 1)),
+    rgba(var(--c3Vals), 0)
+  );
   /* background: linear-gradient(to right, */
   /*   color-mix(in srgb, */
   /*   rgba(var(--hiVals), 1.0) 30%, */
@@ -217,7 +232,11 @@ ul {
 }
 
 .has-image {
-  background: linear-gradient(to right, color-mix(in srgb, rgba(var(--hi2Vals), 1.0) 30%, rgba(var(--c3Vals), 1.0)), rgba(var(--c3Vals), 0.0)) ;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, rgba(var(--hi2Vals), 1) 30%, rgba(var(--c3Vals), 1)),
+    rgba(var(--c3Vals), 0)
+  );
   /* background-image: linear-gradient(to right, */
   /*   color-mix(in srgb, */
   /*   rgba(var(--hi2Vals), 1.0) 30%, */
@@ -227,7 +246,8 @@ ul {
   /*   ) ; */
 }
 
-.song-button:hover, .song-button:focus {
+.song-button:hover,
+.song-button:focus {
   background: #ffffff;
   background-color: var(--c2);
 }
@@ -236,8 +256,6 @@ ul {
   background-image: none;
   background-color: var(--hi);
 }
-
-
 
 .song-button-list {
   padding: 2px;
@@ -264,7 +282,7 @@ ul {
   width: 30px;
 }
 
-.console {
+.console2 {
   display: none;
   z-index: 100;
   width: 90vw;
@@ -288,7 +306,7 @@ ul {
 }
 
 .console-font {
-  font-family: 'Lucida Console', monospace;
+  font-family: "Lucida Console", monospace;
   font-size: 11pt;
 }
 
@@ -306,13 +324,40 @@ ul {
 .console-content {
   width: 100%;
   padding: 10px;
-  position: absolute; 
+  position: absolute;
   bottom: 0;
   left: 0;
   overflow-wrap: break-word;
 }
 
-@media (max-width:400px) {
+.search-box {
+  width: 70vw;
+  height: 1.5em;
+  font-size: 18px;
+  padding: 0 0.5em;
+  border: 2px solid var(--hi2);
+  border-radius: var(--br);
+  background-color: var(--c3);
+  outline: none;
+}
+
+.dead {
+  display: none;
+}
+
+.ballin {
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+@media (max-width: 400px) {
   .main-container {
     flex-direction: column;
   }
@@ -326,6 +371,3 @@ ul {
     position: static;
   }
 }
-
-
-
