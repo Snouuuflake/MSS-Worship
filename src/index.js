@@ -33,7 +33,7 @@ function printError(code) {
 }
 
 /* Removes user access to shortcuts for refresing the page */
-app.on("browser-window-focus", function() {
+app.on("browser-window-focus", function () {
   globalShortcut.register("CommandOrControl+R", () => {
     console.log("CommandOrControl+R is pressed: Shortcut Disabled");
   });
@@ -41,7 +41,7 @@ app.on("browser-window-focus", function() {
     console.log("F5 is pressed: Shortcut Disabled");
   });
 });
-app.on("browser-window-blur", function() {
+app.on("browser-window-blur", function () {
   globalShortcut.unregister("CommandOrControl+R");
   globalShortcut.unregister("F5");
 });
@@ -167,7 +167,7 @@ ipcMain.on("song-string-to-main", (event, data) => {
 
 ipcMain.on("editor-read-song-to-main", (event, data) => {
   // opens native file dialog
-  dialog.showOpenDialog({ properties: ["openFile"] }).then(function(response) {
+  dialog.showOpenDialog({ properties: ["openFile"] }).then(function (response) {
     // if the user finished loading a file
     if (!response.canceled) {
       console.log(response.filePaths[0]);
@@ -236,11 +236,11 @@ function readSong(path, ipcCode) {
     printError(readOutput.error);
     CL2(
       "Error reading song file " +
-      path +
-      ": " +
-      "<BR>" +
-      "&nbsp &nbsp &nbsp &nbsp &nbsp" +
-      readOutput.error,
+        path +
+        ": " +
+        "<BR>" +
+        "&nbsp &nbsp &nbsp &nbsp &nbsp" +
+        readOutput.error,
     );
   }
 }
@@ -248,7 +248,7 @@ function readSong(path, ipcCode) {
 // opens a song file and sends it to the main window
 ipcMain.on("read-song", (event, data) => {
   // opens native file dialog
-  dialog.showOpenDialog({ properties: ["openFile"] }).then(function(response) {
+  dialog.showOpenDialog({ properties: ["openFile"] }).then(function (response) {
     // if the user finished loading a file
     if (!response.canceled) {
       console.log(response.filePaths[0]);
@@ -274,7 +274,7 @@ function readImage(path) {
 // opens an image and ends the address to the main display window
 ipcMain.on("read-image", (event, data) => {
   // opens native file dialog
-  dialog.showOpenDialog({ properties: ["openFile"] }).then(function(response) {
+  dialog.showOpenDialog({ properties: ["openFile"] }).then(function (response) {
     // if the user finished loading a file
     if (!response.canceled) {
       console.log(response.filePaths[0]);
@@ -302,7 +302,7 @@ ipcMain.on("read-dir", (event, data) => {
 
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
-    .then(function(response) {
+    .then(function (response) {
       if (!response.canceled) {
         CL2("Reading folder: " + response.filePaths[0]);
         let filenames = fs.readdirSync(response.filePaths[0]);
@@ -377,7 +377,7 @@ ipcMain.on("save-dir", (event, data) => {
 
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
-    .then(function(response) {
+    .then(function (response) {
       if (!response.canceled) {
         let outputPath = response.filePaths[0];
         let i = 1;
