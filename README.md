@@ -1,3 +1,6 @@
+# This repo is depricated; I decided to rewrite it in react soasto be able to integrate more features faster.
+# The new repo can be found here:
+
 # New in 0.5.0!
 v0.5.0 brings a graphic song editor, making the process more intuitive for those intimidated by editing the plain text files. However, the lyric file format will continue to be designed with easy manual editing in mind.
 
